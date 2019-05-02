@@ -45,7 +45,7 @@ namespace snakeGame
 
         //ToDo (Dave): Start Game Method
 
-        //ToDo (Dave): Create Grid Method
+        //Done (david) Create Grid Method
         private void CreateGrid()
         {
             for (int j = 0; j < 17; j++)
