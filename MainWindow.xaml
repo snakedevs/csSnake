@@ -5,10 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:snakeGame"
         mc:Ignorable="d"
-        Title="Snake v1.0" Height="800" Width="800" MaxHeight="800" MinHeight="800" MaxWidth="800" MinWidth="800">
-    <Grid x:Name="MainWindowController">
+        Title="Snake v1.0" Height="823" Width="800" MaxHeight="823" MinHeight="823" MaxWidth="800" MinWidth="800">
+    <Grid Background="Black">
         <Canvas x:Name="MainCanvas">
-            
+
         </Canvas>
     </Grid>
 </Window>

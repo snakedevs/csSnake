@@ -30,8 +30,8 @@ namespace snakeGame
         public MainWindow()
         {
             InitializeComponent();
+            CreateGrid();
 
-           
         }
         //ToDo (Josh): Tick Method
 
@@ -46,7 +46,29 @@ namespace snakeGame
         //ToDo (Dave): Start Game Method
 
         //ToDo (Dave): Create Grid Method
-
+        private void CreateGrid()
+        {
+            for (int j = 0; j < 17; j++)
+            {
+                for (int i = 0; i < 17; i++)
+                {
+                    Rectangle w = new Rectangle();
+                    w.Height = 44;
+                    w.Width = 44;
+                    if ((j + i) % 2 == 0)
+                    {
+                        w.Fill = Brushes.Gray;
+                    }
+                    else
+                    {
+                        w.Fill = Brushes.DarkGray;
+                    }
+                    MainCanvas.Children.Add(w);
+                    Canvas.SetTop(w, i * 46 + 2);
+                    Canvas.SetLeft(w, j * 46 + 2);
+                }
+            }
+        }
 
     }
 }
