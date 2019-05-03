@@ -15,6 +15,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace snakeGame
 {
@@ -23,24 +24,33 @@ namespace snakeGame
     /// </summary>
     public partial class MainWindow : Window
     {
-         //ToDo (Cam): Globals,(Done)
+        //ToDo (Cam): Globals,(Done)
         private int HighScores;
         private string HighScorePlayer;
         private Point StartingPos;
-        private enum GameState {MainMenu, GameOn, GameOver, Settings}
+        private enum GameState { MainMenu, GameOn, GameOver, Settings }
         public Point Player { get; private set; }
-        private int GameTimer;
+        private DispatcherTimer gameTimer = new DispatcherTimer();
         private Apple apple;
-        
+
         //ToDo (Josh): GameTimer, Enum
         public MainWindow()
         {
             InitializeComponent();
+
+            GameState gameState;
+            gameTimer.Tick += gameTimer_Tick;
+            gameTimer.Interval = new TimeSpan(0, 0, 0, 0, 1000 / 15);
+            gameTimer.Start();
+
             CreateMainMenu();
             CreateGrid();
         }
         //ToDo (Josh): Tick Method
-
+        private void gameTimer_Tick(object sender, EventArgs e)
+        {
+            //if (gamest)
+        }
 
         //ToDo (Anyone): Other Methods
 
@@ -54,9 +64,9 @@ namespace snakeGame
         //ToDO (Dave): Create Main menu
         private void CreateMainMenu()
         {
-            TextBlock MainMenu= new TextBlock();
+            TextBlock MainMenu = new TextBlock();
             MainMenu.FontSize = 40;
-            MainMenu.Text = "  Welcome to Snake! " ;
+            MainMenu.Text = "  Welcome to Snake! ";
             Button btn_StartGame = new Button();
 
             btn_StartGame.FontSize = 40;
@@ -73,7 +83,7 @@ namespace snakeGame
             {
                 MainCanvas.Visibility = Visibility.Hidden;
                 GameCanvas.Visibility = Visibility.Visible;
-            }                   
+            }
         }
         //David
         private void CreateGrid()
