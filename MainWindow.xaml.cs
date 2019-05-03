@@ -23,8 +23,15 @@ namespace snakeGame
     /// </summary>
     public partial class MainWindow : Window
     {
-        //ToDo (Cam): Globals
-
+         //ToDo (Cam): Globals,(Done)
+        private int HighScores;
+        private string HighScorePlayer;
+        private Point StartingPos;
+        private enum GameState {MainMenu, GameOn, GameOver, Settings}
+        public Point Player { get; private set; }
+        private int GameTimer;
+        private Apple apple;
+        
         //ToDo (Josh): GameTimer, Enum
         public MainWindow()
         {
