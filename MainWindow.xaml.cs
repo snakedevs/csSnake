@@ -29,8 +29,8 @@ namespace snakeGame
         public MainWindow()
         {
             InitializeComponent();
+            CreateMainMenu();
             CreateGrid();
-
         }
         //ToDo (Josh): Tick Method
 
@@ -44,8 +44,13 @@ namespace snakeGame
         //ToDo (Cam): Game Over Method
 
         //ToDo (Dave): Start Game Method
-
-        //ToDo (Dave): Create Grid Method
+        //ToDO (Dave): Create Main menu
+        private void CreateMainMenu()
+        {
+            Button btn_StartGame = new Button();
+            btn_StartGame.Content = "Click to start";
+        }
+        //David
         private void CreateGrid()
         {
             for (int j = 0; j < 17; j++)
