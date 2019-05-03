@@ -54,8 +54,26 @@ namespace snakeGame
         //ToDO (Dave): Create Main menu
         private void CreateMainMenu()
         {
+            TextBlock MainMenu= new TextBlock();
+            MainMenu.FontSize = 40;
+            MainMenu.Text = "  Welcome to Snake! " ;
             Button btn_StartGame = new Button();
+
+            btn_StartGame.FontSize = 40;
             btn_StartGame.Content = "Click to start";
+            btn_StartGame.Height = 100;
+            btn_StartGame.Width = 356;
+
+            MainCanvas.Children.Add(MainMenu);
+            MainCanvas.Children.Add(btn_StartGame);
+            Canvas.SetTop(btn_StartGame, 70);
+            Canvas.SetLeft(btn_StartGame, 10);
+            Canvas.SetRight(btn_StartGame, 10);
+            if (btn_StartGame.IsPressed)
+            {
+                MainCanvas.Visibility = Visibility.Hidden;
+                GameCanvas.Visibility = Visibility.Visible;
+            }                   
         }
         //David
         private void CreateGrid()
