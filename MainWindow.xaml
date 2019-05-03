@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:snakeGame"
         mc:Ignorable="d"
         Title="Snake v1.0" Height="823" Width="800" MaxHeight="823" MinHeight="823" MaxWidth="800" MinWidth="800">
-    <Grid Background="Black">
+    <Grid Background="BlanchedAlmond">
         <Canvas x:Name="MainCanvas">
 
         </Canvas>

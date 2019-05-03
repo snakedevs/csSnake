@@ -26,7 +26,6 @@ namespace snakeGame
         //ToDo (Cam): Globals
 
         //ToDo (Josh): GameTimer, Enum
-
         public MainWindow()
         {
             InitializeComponent();
@@ -34,6 +33,7 @@ namespace snakeGame
 
         }
         //ToDo (Josh): Tick Method
+
 
         //ToDo (Anyone): Other Methods
 
@@ -45,7 +45,7 @@ namespace snakeGame
 
         //ToDo (Dave): Start Game Method
 
-        //Done (david) Create Grid Method
+        //ToDo (Dave): Create Grid Method
         private void CreateGrid()
         {
             for (int j = 0; j < 17; j++)
@@ -57,11 +57,11 @@ namespace snakeGame
                     w.Width = 44;
                     if ((j + i) % 2 == 0)
                     {
-                        w.Fill = Brushes.Gray;
+                        w.Fill = Brushes.DarkSeaGreen;
                     }
                     else
                     {
-                        w.Fill = Brushes.DarkGray;
+                        w.Fill = Brushes.ForestGreen;
                     }
                     MainCanvas.Children.Add(w);
                     Canvas.SetTop(w, i * 46 + 2);
