@@ -22,31 +22,29 @@ namespace snakeGame
             int randomnumber;
             //generates random number within 0-20
             Random r = new Random();
-            randomnumber = r.Next(17);
+            randomnumber = r.Next(16);
             return randomnumber;
         }
-        private Snake s;
-
         public Point Position { get; private set; }
         private Rectangle apple;
         private int height = 44;
         private int width = 44;
 
-        public Apple(MainWindow window)
+        public Apple(Canvas canvas, Snake s)
         {
-            Generate();
-            window.GameCanvas.Children.Add(apple);
-            Canvas.SetTop(apple, Position.Y);
-            Canvas.SetLeft(apple, Position.X);
+            Generate(s);
+            canvas.Children.Add(apple);
+            Canvas.SetTop(apple, Position.Y * (height + 2) + 2);
+            Canvas.SetLeft(apple, Position.X * (width + 2) + 2);
         }
 
-        private void Generate()
+        private void Generate(Snake s)
         {
             Position = RandomPos(s);
             apple = new Rectangle();
             apple.Height = height;
             apple.Width = width;
-            apple.Fill = Brushes.DarkRed;
+            apple.Fill = Brushes.Red;
         }
 
         private Point RandomPos(Snake s)
