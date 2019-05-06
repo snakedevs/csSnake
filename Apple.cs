@@ -16,19 +16,21 @@ namespace snakeGame
     public class Apple
     {
         //David
-        private static int randomNumberMethod()
-        {
-            //word generation for easy + hard
-            int randomnumber;
-            //generates random number within 0-20
-            Random r = new Random();
-            randomnumber = r.Next(16);
-            return randomnumber;
-        }
+
         public Point Position { get; private set; }
+        private Random r = new Random();
         private Rectangle apple;
         private int height = 44;
         private int width = 44;
+
+        private static int randomNumberMethod(Random r)
+        {
+            //word generation for easy + hard
+            int randomnumber;
+            //generates random number within 1-16
+            randomnumber = r.Next(1, 16);
+            return randomnumber;
+        }
 
         public Apple(Canvas canvas, Snake s)
         {
@@ -52,8 +54,8 @@ namespace snakeGame
             bool isOnSnake = false;
             Point tempPoint = new Point();
 
-            tempPoint.X = randomNumberMethod();
-            tempPoint.Y = randomNumberMethod();
+            tempPoint.X = randomNumberMethod(r);
+            tempPoint.Y = randomNumberMethod(r);
 
             //for (int i = 0; i < s.Snake.count; i++)
             //{
