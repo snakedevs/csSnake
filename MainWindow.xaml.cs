@@ -81,6 +81,7 @@ namespace snakeGame
                     CreateGrid();
                     GameCanvas.Visibility = Visibility.Visible;
                     Player = new Snake(GameCanvas);
+                    apple = new Apple(GameCanvas, Player);
                 }
             }
 
