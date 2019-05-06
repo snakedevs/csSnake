@@ -80,6 +80,7 @@ namespace snakeGame
                     //Which will include
                     CreateGrid();
                     GameCanvas.Visibility = Visibility.Visible;
+                    Player = new Snake(GameCanvas);
                 }
             }
 
