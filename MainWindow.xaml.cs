@@ -130,13 +130,13 @@ namespace snakeGame
         //David
         private void CreateGrid()
         {
-            for (int j = 0; j < 17; j++)
+            for (int j = 0; j < 16; j++)
             {
-                for (int i = 0; i < 17; i++)
+                for (int i = 0; i < 16; i++)
                 {
                     Rectangle w = new Rectangle();
-                    w.Height = 44;
-                    w.Width = 44;
+                    w.Height = 42;
+                    w.Width = 42;
                     if ((j + i) % 2 == 0)
                     {
                         w.Fill = Brushes.DarkSeaGreen;
