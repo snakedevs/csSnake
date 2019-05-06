@@ -20,8 +20,8 @@ namespace snakeGame
         public Point Position { get; private set; }
         private Random r = new Random();
         private Rectangle apple;
-        private int height = 44;
-        private int width = 44;
+        private int height = 42;
+        private int width = 42;
 
         private static int randomNumberMethod(Random r)
         {
