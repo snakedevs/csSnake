@@ -10,7 +10,10 @@ using System.Windows.Shapes;
 
 namespace snakeGame
 {
-    class Apple
+    /// <summary>
+    /// Apple object
+    /// </summary>
+    public class Apple
     {
         //David
         private static int randomNumberMethod()
@@ -35,32 +38,41 @@ namespace snakeGame
             window.GameCanvas.Children.Add(apple);
             Canvas.SetTop(apple, Position.Y);
             Canvas.SetLeft(apple, Position.X);
-            
-            
         }
 
         private void Generate()
         {
             Position = RandomPos(s);
             apple = new Rectangle();
-            apple.Height = 44;
-            apple.Width = 44;
+            apple.Height = height;
+            apple.Width = width;
             apple.Fill = Brushes.DarkRed;
         }
 
         private Point RandomPos(Snake s)
         {
+            bool isOnSnake = false;
             Point tempPoint = new Point();
 
             tempPoint.X = randomNumberMethod();
             tempPoint.Y = randomNumberMethod();
 
-            if (s.pos.x == tempPoint.X && s.pos.y == tempPoint.Y)
+            //for (int i = 0; i < s.Snake.count; i++)
+            //{
+            //    if (s.pos.x == tempPoint.X && s.pos.y == tempPoint.Y)
+            //    {
+            //        isOnSnake = true;
+            //    }
+            //}
+            if (isOnSnake == false)
             {
-                tempPoint = RandomPos(s);
+                return tempPoint;
+            }
+            else
+            {
+                return RandomPos(s);
             }
 
-            return tempPoint;
         }
 
     }
