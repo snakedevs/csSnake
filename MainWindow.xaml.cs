@@ -147,8 +147,8 @@ namespace snakeGame
                         w.Fill = Brushes.ForestGreen;
                     }
                     GameCanvas.Children.Add(w);
-                    Canvas.SetTop(w, i * 46 + 2);
-                    Canvas.SetLeft(w, j * 46 + 2);
+                    Canvas.SetTop(w, i * 44 + 2);
+                    Canvas.SetLeft(w, j * 44 + 2);
                 }
             }
         }

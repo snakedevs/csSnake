@@ -5,13 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:snakeGame"
         mc:Ignorable="d"
-        Title="Snake v1.0" Height="778" Width="755" MaxHeight="778" MinHeight="778" MaxWidth="755" MinWidth="755">
+        Title="Snake v1.0" Height="757" Width="730" MaxHeight="757" MinHeight="757" MaxWidth="730" MinWidth="730">
     <Grid>
         <Canvas x:Name="MainCanvas" Visibility="Visible" Margin="182,184,182,184" Background="Green" >
 
         </Canvas>
         <Canvas Visibility="Hidden" x:Name="GameCanvas" Background="BlanchedAlmond">
-            
+
         </Canvas>
     </Grid>
 </Window>

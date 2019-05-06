@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,7 +10,7 @@ using System.Windows.Shapes;
 
 namespace snakeGame
 {
-    class Snake
+    public class Snake
     {
         //Dave        
         Rect[] snake;
@@ -22,7 +22,7 @@ namespace snakeGame
 
         //Cam
         public Snake(Canvas canvas)
-            {
+        {
 
             Rectangle a = new Rectangle();
             a.Height = 100;
@@ -32,11 +32,12 @@ namespace snakeGame
             Canvas.SetTop(a, 100);
             a.Fill = Brushes.Blue;
 
-            }
-       
-            
-        
-        //ToDo: Snake
-        
+        }
+
+        public void Movement()
+        {
+
+        }
+
     }
 }
