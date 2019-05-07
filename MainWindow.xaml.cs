@@ -40,7 +40,7 @@ namespace snakeGame
         // David
         private Button btn_StartGame;
         private TextBlock tB_MainMenu;
-
+        private Button btn_Controls;
 
         // Everyone
         public MainWindow()
@@ -53,6 +53,7 @@ namespace snakeGame
             gameTimer.Start();
 
             CreateMainMenu();
+
         }
 
         // Josh
@@ -68,6 +69,12 @@ namespace snakeGame
 
                     gameState = GameState.GameOn;
                 }
+                //David
+                if (btn_Controls.IsPressed)
+                {
+                    MainCanvas.Visibility = Visibility.Hidden;
+                    Controls.Visibility = Visibility.Visible;
+                }
 
             }
 
@@ -81,7 +88,6 @@ namespace snakeGame
                     CreateGrid();
                     GameCanvas.Visibility = Visibility.Visible;
                     Player = new Snake(GameCanvas);
-                    apple = new Apple(GameCanvas, Player);
                 }
             }
 
@@ -106,12 +112,20 @@ namespace snakeGame
 
         //ToDo (Dave): Start Game Method
 
+        //DAvid
+        private void returntomenufromcontrols_Click(object sender, RoutedEventArgs e)
+        {
+            Controls.Visibility = Visibility.Hidden;
+            CreateMainMenu();
+            MainCanvas.Visibility = Visibility.Visible;
+        }
 
         //David
         private void CreateMainMenu()
         {
             btn_StartGame = new Button();
             tB_MainMenu = new TextBlock();
+            btn_Controls = new Button();
 
             tB_MainMenu.FontSize = 40;
             tB_MainMenu.Text = "  Welcome to Snake! ";
@@ -121,11 +135,22 @@ namespace snakeGame
             btn_StartGame.Height = 100;
             btn_StartGame.Width = 356;
 
+            btn_Controls.FontSize = 40;
+            btn_Controls.Content = "Click to see controls";
+            btn_Controls.Height = 100;
+            btn_Controls.Width = 356;
+
             MainCanvas.Children.Add(tB_MainMenu);
             MainCanvas.Children.Add(btn_StartGame);
+            MainCanvas.Children.Add(btn_Controls);
+
             Canvas.SetTop(btn_StartGame, 70);
             Canvas.SetLeft(btn_StartGame, 10);
             Canvas.SetRight(btn_StartGame, 10);
+
+            Canvas.SetTop(btn_Controls, 180);
+            Canvas.SetLeft(btn_Controls, 10);
+            Canvas.SetRight(btn_Controls, 10);
         }
 
         //David
@@ -153,5 +178,6 @@ namespace snakeGame
             }
         }
 
+       
     }
 }
