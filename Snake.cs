@@ -5,11 +5,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
 
 namespace snakeGame
 {
+    enum PlayerState { alive, dead };
     public class Snake
     {
         //Dave        
@@ -18,26 +20,39 @@ namespace snakeGame
         public Point headPos { get; private set; }
         public int score { get; private set; }
         private int velocity = 3;
-
-
+        private Rectangle Player;
+        private Point position;
+        private PlayerState state;
+       
         //Cam
         public Snake(Canvas canvas)
         {
+            state = PlayerState.alive;
+            velocity = 3;
 
-            Rectangle a = new Rectangle();
-            a.Height = 100;
-            a.Width = 100;
-            canvas.Children.Add(a);
-            Canvas.SetLeft(a, 100);
-            Canvas.SetTop(a, 100);
-            a.Fill = Brushes.Blue;
+            Player = new Rectangle();
+            Player.Fill = Brushes.Blue;
+            Player.Width = 42;
+            Player.Height = 42;
+            canvas.Children.Add(Player);
+            Canvas.SetLeft(Player, position.Y + 3 );
+            Canvas.SetTop(Player, position.X + 3);
+            
+            if (state == PlayerState.alive)
+            {
+                if (Keyboard.IsKeyDown(Key.Left))
+                {
+                    position.X += 10;
+                    state = PlayerState.alive;
+
+                }
+            }
+
 
         }
 
-        public void Movement()
-        {
-
-        }
+       
+        //ToDo: Snake
 
     }
 }
