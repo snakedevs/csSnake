@@ -23,7 +23,7 @@ namespace snakeGame
         private Rectangle Player;
         private Point position;
         private PlayerState state;
-       
+
         //Cam
         public Snake(Canvas canvas)
         {
@@ -35,23 +35,33 @@ namespace snakeGame
             Player.Width = 42;
             Player.Height = 42;
             canvas.Children.Add(Player);
-            Canvas.SetLeft(Player, position.Y + 3 );
-            Canvas.SetTop(Player, position.X + 3);
-            
+            Canvas.SetLeft(Player, position.Y + 2);
+            Canvas.SetTop(Player, position.X + 2);
+
             if (state == PlayerState.alive)
             {
                 if (Keyboard.IsKeyDown(Key.Left))
                 {
                     position.X += 10;
                     state = PlayerState.alive;
-
+                }
+                if (Keyboard.IsKeyDown(Key.Right))
+                {
+                    position.X -= 10;
+                    state = PlayerState.alive;
+                }
+                if (Keyboard.IsKeyDown(Key.Up))
+                {
+                    position.Y += 10;
+                    state = PlayerState.alive;
+                }
+                if (Keyboard.IsKeyDown(Key.Down))
+                {
+                    position.Y -= 10;
+                    state = PlayerState.alive;
                 }
             }
-
-
         }
-
-       
         //ToDo: Snake
 
     }
