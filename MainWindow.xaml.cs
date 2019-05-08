@@ -53,6 +53,7 @@ namespace snakeGame
             gameTimer.Start();
 
             CreateMainMenu();
+            
 
         }
 
@@ -132,12 +133,12 @@ namespace snakeGame
             tB_MainMenu.Text = "  Welcome to Snake! ";
 
             btn_StartGame.FontSize = 40;
-            btn_StartGame.Content = "Click to start";
+            btn_StartGame.Content = "Start Game";
             btn_StartGame.Height = 100;
             btn_StartGame.Width = 356;
 
             btn_Controls.FontSize = 40;
-            btn_Controls.Content = "Click to see controls";
+            btn_Controls.Content = "Controls";
             btn_Controls.Height = 100;
             btn_Controls.Width = 356;
 

@@ -40,7 +40,7 @@
                        Canvas.Left="136" Canvas.Top="250" Background="White" FontSize="25"/>
             <Button x:Name="returntomenufromcontrols" Click="returntomenufromcontrols_Click" Height="32" 
                     Width="313" RenderTransformOrigin="3.475,16.75" Canvas.Left="45" Canvas.Top="338"
-                    Content="Click to return to main menu" FontSize="20" />
+                    Content="Return to main menu" FontSize="20" />
         </Canvas>
 
     </Grid>
