@@ -36,8 +36,8 @@ namespace snakeGame
         {
             Generate(s);
             canvas.Children.Add(apple);
-            Canvas.SetTop(apple, Position.Y * (height + 2) + 2);
-            Canvas.SetLeft(apple, Position.X * (width + 2) + 2);
+            Canvas.SetTop(apple, Position.Y + 2);
+            Canvas.SetLeft(apple, Position.X + 2);
         }
 
         private void Generate(Snake s)
@@ -54,8 +54,8 @@ namespace snakeGame
             bool isOnSnake = false;
             Point tempPoint = new Point();
 
-            tempPoint.X = randomNumberMethod(r);
-            tempPoint.Y = randomNumberMethod(r);
+            tempPoint.X = randomNumberMethod(r) * (height + 2);
+            tempPoint.Y = randomNumberMethod(r) * (width + 2);
 
             //for (int i = 0; i < s.Snake.count; i++)
             //{
@@ -73,6 +73,11 @@ namespace snakeGame
                 return RandomPos(s);
             }
 
+        }
+
+        public void SelfDestruct(Canvas canvas)
+        {
+            canvas.Children.Remove(apple);
         }
 
     }

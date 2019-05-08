@@ -49,11 +49,11 @@ namespace snakeGame
             gameState = GameState.MainMenu;
 
             gameTimer.Tick += gameTimer_Tick;
-            gameTimer.Interval = new TimeSpan(0, 0, 0, 0, 1000 / 15);
+            gameTimer.Interval = new TimeSpan(0, 0, 0, 0, 1000 / 10);
             gameTimer.Start();
 
             CreateMainMenu();
-            
+
 
         }
 
@@ -86,9 +86,14 @@ namespace snakeGame
                 {
                     //Run Game Start method
                     //Which will include
-                    CreateGrid();
-                    GameCanvas.Visibility = Visibility.Visible;
-                    Player = new Snake(GameCanvas);
+                    GameStart();
+                }
+
+
+                Player.Movement();
+                if (Player.EatsApple(Player.headPos, apple.Position) == true)
+                {
+                    apple.SelfDestruct(GameCanvas);
                     apple = new Apple(GameCanvas, Player);
                 }
             }
@@ -102,6 +107,14 @@ namespace snakeGame
                     //Display leaderboards 
                 }
             }
+        }
+
+        private void GameStart()
+        {
+            CreateGrid();
+            GameCanvas.Visibility = Visibility.Visible;
+            Player = new Snake(GameCanvas);
+            apple = new Apple(GameCanvas, Player);
         }
 
         //ToDo (Anyone): Other Methods
@@ -180,6 +193,6 @@ namespace snakeGame
             }
         }
 
-       
+
     }
 }

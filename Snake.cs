@@ -19,7 +19,8 @@ namespace snakeGame
         public int trail { get; private set; }
         public Point headPos { get; private set; }
         public int score { get; private set; }
-        private int velocity = 3;
+        private int velocityX;
+        private int velocityY;
         private Rectangle Player;
         private Point position;
         private PlayerState state;
@@ -28,7 +29,8 @@ namespace snakeGame
         public Snake(Canvas canvas)
         {
             state = PlayerState.alive;
-            velocity = 3;
+            velocityX = 44;
+            velocityY = 0;
 
             Player = new Rectangle();
             Player.Fill = Brushes.Blue;
@@ -38,28 +40,53 @@ namespace snakeGame
             Canvas.SetLeft(Player, position.Y + 2);
             Canvas.SetTop(Player, position.X + 2);
 
-            if (state == PlayerState.alive)
+        }
+
+        public void Movement()
+        {
+            if (Keyboard.IsKeyDown(Key.Left) && velocityX != 44)
             {
-                if (Keyboard.IsKeyDown(Key.Left))
-                {
-                    position.X += 10;
-                    state = PlayerState.alive;
-                }
-                if (Keyboard.IsKeyDown(Key.Right))
-                {
-                    position.X -= 10;
-                    state = PlayerState.alive;
-                }
-                if (Keyboard.IsKeyDown(Key.Up))
-                {
-                    position.Y += 10;
-                    state = PlayerState.alive;
-                }
-                if (Keyboard.IsKeyDown(Key.Down))
-                {
-                    position.Y -= 10;
-                    state = PlayerState.alive;
-                }
+                velocityY = 0;
+                velocityX = -44;
+            }
+
+            else if (Keyboard.IsKeyDown(Key.Right) && velocityX != -44)
+            {
+                velocityY = 0;
+                velocityX = 44;
+            }
+
+            else if (Keyboard.IsKeyDown(Key.Up) && velocityY != 44)
+            {
+                velocityX = 0;
+                velocityY = -44;
+            }
+
+            else if (Keyboard.IsKeyDown(Key.Down) && velocityY != -44)
+            {
+                velocityX = 0;
+                velocityY = 44;
+            }
+
+            position.X += velocityX;
+            position.Y += velocityY;
+
+            //Update Pos
+            Canvas.SetLeft(Player, position.X + 2);
+            Canvas.SetTop(Player, position.Y + 2);
+            headPos = position;
+        }
+
+        public bool EatsApple(Point a, Point b)
+        {
+            if (a.X == b.X && a.Y == b.Y)
+            {
+                score++;
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
         //ToDo: Snake
