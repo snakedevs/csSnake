@@ -76,6 +76,11 @@ namespace snakeGame
                     MainCanvas.Visibility = Visibility.Hidden;
                     Controls.Visibility = Visibility.Visible;
                 }
+                //Cam
+                if (btn_QuitGame.IsPressed)
+                {
+                    this.Close();
+                }
 
             }
 
@@ -141,6 +146,7 @@ namespace snakeGame
             btn_StartGame = new Button();
             tB_MainMenu = new TextBlock();
             btn_Controls = new Button();
+            btn_QuitGame = new Button();
 
             tB_MainMenu.FontSize = 40;
             tB_MainMenu.Text = "  Welcome to Snake! ";
@@ -154,10 +160,16 @@ namespace snakeGame
             btn_Controls.Content = "Controls";
             btn_Controls.Height = 100;
             btn_Controls.Width = 356;
+            
+            btn_QuitGame.FontSize = 40;
+            btn_QuitGame.Content = "Quit Game";
+            btn_QuitGame.Height = 100;
+            btn_QuitGame.Width = 356;
 
             MainCanvas.Children.Add(tB_MainMenu);
             MainCanvas.Children.Add(btn_StartGame);
             MainCanvas.Children.Add(btn_Controls);
+            ainCanvas.Children.Add(btn_QuitGame);
 
             Canvas.SetTop(btn_StartGame, 70);
             Canvas.SetLeft(btn_StartGame, 10);
@@ -166,6 +178,10 @@ namespace snakeGame
             Canvas.SetTop(btn_Controls, 180);
             Canvas.SetLeft(btn_Controls, 10);
             Canvas.SetRight(btn_Controls, 10);
+            
+            Canvas.SetTop(btn_QuitGame, 290);
+            Canvas.SetLeft(btn_QuitGame, 10);
+            Canvas.SetLeft(btn_QuitGame, 10);
         }
 
         //David
