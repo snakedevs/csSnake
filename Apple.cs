@@ -57,13 +57,13 @@ namespace snakeGame
             tempPoint.X = randomNumberMethod(r) * (height + 2);
             tempPoint.Y = randomNumberMethod(r) * (width + 2);
 
-            //for (int i = 0; i < s.Snake.count; i++)
-            //{
-            //    if (s.pos.x == tempPoint.X && s.pos.y == tempPoint.Y)
-            //    {
-            //        isOnSnake = true;
-            //    }
-            //}
+            foreach (Point p in s.trailPoints)
+            {
+                if (p.X == Position.X && p.Y == Position.Y)
+                {
+                    isOnSnake = true;
+                }
+            }
             if (isOnSnake == false)
             {
                 return tempPoint;

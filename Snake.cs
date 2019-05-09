@@ -14,8 +14,8 @@ namespace snakeGame
     public class Snake
     {
         //Dave        
-        List<Rectangle> trailRects = new List<Rectangle>();
-        List<Point> trailPoints = new List<Point>();
+        private List<Rectangle> trailRects = new List<Rectangle>();
+        public List<Point> trailPoints { get; private set; }
         public Point trail { get; private set; }
         public Point headPos { get; private set; }
         public int score { get; private set; }
@@ -28,10 +28,11 @@ namespace snakeGame
         //Cam
         public Snake(Canvas canvas)
         {
+            trailPoints = new List<Point>();
             GameCanvas = canvas;
             velocityX = 44;
             velocityY = 0;
-            trail = new Point(0,-44);
+            trail = new Point(0, -44);
 
             Player = new Rectangle();
             Player.Fill = Brushes.Blue;
@@ -74,29 +75,28 @@ namespace snakeGame
             //Update Pos
             Canvas.SetLeft(Player, position.X + 2);
             Canvas.SetTop(Player, position.Y + 2);
+            
 
-            int i = 0;
-            foreach(Rectangle rect in trailRects)
+            int i = trailRects.Count() - 1;
+            foreach (Rectangle rect in trailRects)
             {
                 if (i == 0)
                 {
                     Canvas.SetLeft(rect, headPos.X + 2);
                     Canvas.SetTop(rect, headPos.Y + 2);
-                    trailPoints[i] = trail;
-                    trail = headPos;
+                    trailPoints[i] = headPos;
                 }
                 else if (i > 0)
                 {
-                    Canvas.SetLeft(rect, trailPoints[i - 1].X + 2);
-                    Canvas.SetTop(rect, trailPoints[i - 1].Y + 2);
                     trailPoints[i] = trailPoints[i - 1];
-                    trailPoints[i] = trail;
+                    Canvas.SetLeft(rect, trailPoints[i].X + 2);
+                    Canvas.SetTop(rect, trailPoints[i].Y + 2);
                 }
-                i++;
+                i--;
             }
 
             headPos = position;
-            
+
         }
 
         public bool EatsApple(Point a, Point b)
@@ -117,7 +117,8 @@ namespace snakeGame
         {
             Rectangle trailRect = new Rectangle();
             Point trailPoint = new Point();
-            trailPoint = trail;
+            trailPoint = headPos;
+
             trailRect.Fill = Brushes.Blue;
             trailRect.Width = 42;
             trailRect.Height = 42;

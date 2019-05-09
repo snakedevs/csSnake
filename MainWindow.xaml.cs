@@ -84,12 +84,12 @@ namespace snakeGame
                 //Cam
                 if (btn_QuitGame.IsPressed)
                 {
-                    this.Close();
+                    QuitGame();
                 }
                 //if (btn_GameMenu.IsPressed)
                 //{
-                   // CreateMainMenu();
-                    
+                // CreateMainMenu();
+
                 //}
 
 
@@ -108,6 +108,12 @@ namespace snakeGame
 
                 Player.Movement();
                 this.Title = "Snake 1.0 - Score: " + Player.score;
+
+                if (CheckOutOfBounds() == true)
+                {
+                    GameOver();
+                }
+
                 if (Player.EatsApple(Player.headPos, apple.Position) == true)
                 {
                     apple.SelfDestruct(GameCanvas);
@@ -126,6 +132,11 @@ namespace snakeGame
             }
         }
 
+        private void QuitGame()
+        {
+            this.Close();
+        }
+
         private void GameStart()
         {
             CreateGrid();
@@ -141,6 +152,10 @@ namespace snakeGame
         //ToDo (Cam): Quit Game Method
 
         //ToDo (Cam): Game Over Method
+        private void GameOver()
+        {
+            QuitGame();
+        }
 
         //ToDo (Dave): Start Game Method
 
@@ -221,12 +236,28 @@ namespace snakeGame
                 }
             }
         }
-        private bool CheckCollision(Point a,Point b )
-        {
 
+        private bool CheckCollision(Point a, Point b)
+        {
             if (a.X == b.X && a.Y == b.Y)
             {
-                btn_GameMenu = new Button();
+                return true;
+            }
+            else return false;
+        }
+
+        private bool CheckOutOfBounds()
+        {
+            if (Player.headPos.X >= this.MaxWidth || Player.headPos.X < 0 ||
+                Player.headPos.Y >= this.MaxHeight || Player.headPos.Y < 0)
+            {
+                return true;
+            }
+
+            else return false;
+        }
+
+        /*btn_GameMenu = new Button();
                 GameCanvas.Children.Add(btn_GameMenu);
                 btn_GameMenu.Content = "Exit to Main Menu";
                 btn_GameMenu.FontSize = 40;
@@ -251,23 +282,13 @@ namespace snakeGame
                 tb_Score.Height = 100;
                 tb_Score.Width = 356;
                 Canvas.SetTop(tb_Score, 340);
-                Canvas.SetLeft(tb_Score,100);
+                Canvas.SetLeft(tb_Score, 100);
 
                 GameCanvas.Children.Add(btn_QuitGame);
                 btn_QuitGame.Height = 100;
                 btn_QuitGame.Width = 356;
                 Canvas.SetTop(btn_QuitGame, 460);
                 Canvas.SetLeft(btn_QuitGame, 100);
-                                
-                return true;
-                
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-
+                */
     }
 }
