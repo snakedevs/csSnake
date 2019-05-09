@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="Snake v1.0" Height="745" Width="722" MaxHeight="745" MinHeight="745" MaxWidth="722" MinWidth="722">
     <Grid>
-        <Canvas x:Name="MainCanvas" Margin="150,184,182,60" Background="Green" >
+        <Canvas x:Name="MainCanvas" Margin="150,184,182,120" Background="Green" >
 
         </Canvas>
         <Canvas Visibility="Hidden" x:Name="GameCanvas" Background="BlanchedAlmond">
