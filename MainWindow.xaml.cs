@@ -44,6 +44,7 @@ namespace snakeGame
         private Button btn_Controls;
         private Button btn_QuitGame;
         private Button btn_GameMenu;
+        private Button btn_ExitGame;
         private TextBlock tb_GameOver;
         private TextBlock tb_Score;
 
@@ -87,11 +88,7 @@ namespace snakeGame
                 {
                     QuitGame();
                 }
-                //if (btn_GameMenu.IsPressed)
-                //{
-                // CreateMainMenu();
-
-                //}
+                
 
 
             }
@@ -123,7 +120,7 @@ namespace snakeGame
 
                 foreach (Point p in Player.trailPoints)
                 {
-                    if (CheckCollision(p , Player.headPos) == true)
+                    if (CheckCollision(p, Player.headPos) == true)
                     {
                         gameState = GameState.GameOver;
                     }
@@ -158,18 +155,21 @@ namespace snakeGame
 
         //ToDo (Josh): Leaderboard/Scores Methods
 
-            //David 
+        //Cam
         private void GameOver()
         {
+                       
             GameCanvas.Children.Clear();
-            MessageBox.Show("Score: " + Player.score.ToString());
             GameCanvas.Visibility = Visibility.Hidden;
-            MainCanvas.Visibility = Visibility.Visible;
+            Score.Visibility = Visibility.Visible;
             gameState = GameState.MainMenu;
-            CreateMainMenu();            
+            CreateMainMenu();
+
+            score.Content = "Your Score is " + Player.score;
+                        
         }
 
-        //DAvid
+        //David
         private void returntomenufromcontrols_Click(object sender, RoutedEventArgs e)
         {
             Controls.Visibility = Visibility.Hidden;
@@ -266,35 +266,19 @@ namespace snakeGame
             else return false;
         }
 
-        /*btn_GameMenu = new Button();
-                GameCanvas.Children.Add(btn_GameMenu);
-                btn_GameMenu.Content = "Exit to Main Menu";
-                btn_GameMenu.FontSize = 40;
-                btn_GameMenu.Width = 356;
-                btn_GameMenu.Height = 100;
-                Canvas.SetTop(btn_GameMenu, 100);
-                Canvas.SetTop(btn_GameMenu, 200);
-                tb_GameOver = new TextBlock();
-                GameCanvas.Children.Add(tb_GameOver);
-                tb_GameOver.Text = "Game Over!";
-                tb_GameOver.FontSize = 40;
-                tb_GameOver.Width = 356;
-                tb_GameOver.Height = 100;
-                Canvas.SetTop(tb_GameOver, 220);
-                Canvas.SetLeft(tb_GameOver, 200);
-                tb_Score = new TextBlock();
-                GameCanvas.Children.Add(tb_Score);
-                tb_Score.Text = "your score was " + score;
-                tb_Score.FontSize = 40;
-                tb_Score.Height = 100;
-                tb_Score.Width = 356;
-                Canvas.SetTop(tb_Score, 340);
-                Canvas.SetLeft(tb_Score, 100);
-                GameCanvas.Children.Add(btn_QuitGame);
-                btn_QuitGame.Height = 100;
-                btn_QuitGame.Width = 356;
-                Canvas.SetTop(btn_QuitGame, 460);
-                Canvas.SetLeft(btn_QuitGame, 100);
-                */
+        //Cam
+        private void Returntomenufromscore_Click(object sender, RoutedEventArgs e)
+        {
+            Score.Visibility = Visibility.Hidden;
+            MainCanvas.Visibility = Visibility.Visible;
+            gameState = GameState.MainMenu;
+            CreateMainMenu();
+        }
+
+        private void ExitGame_Click(object sender, RoutedEventArgs e)
+        {
+            QuitGame();
+        }
+
     }
 }

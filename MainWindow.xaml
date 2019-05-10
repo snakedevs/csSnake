@@ -5,12 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:snakeGame"
         mc:Ignorable="d"
-        Title="Snake v1.0" Height="745" Width="722" MaxHeight="745" MinHeight="745" MaxWidth="722" MinWidth="722">
+        Title="Snake v1.0" Height="743" Width="720" MaxHeight="743" MinHeight="743" MaxWidth="720" MinWidth="720">
     <Grid>
-        <Canvas x:Name="MainCanvas" Margin="150,184,182,60" Background="Green" >
+        <Canvas x:Name="MainCanvas" Margin="150,184,182,120" Background="Green" >
 
         </Canvas>
-        <Canvas Visibility="Hidden" x:Name="GameCanvas" Background="White">
+        <Canvas Visibility="Hidden" x:Name="GameCanvas" Background="BlanchedAlmond">
 
         </Canvas>
         <!--Controls menu-->
@@ -41,7 +41,15 @@
             <Button x:Name="returntomenufromcontrols" Click="returntomenufromcontrols_Click" Height="32" 
                     Width="313" RenderTransformOrigin="3.475,16.75" Canvas.Left="45" Canvas.Top="338"
                     Content="Return to main menu" FontSize="20" />
+        </Canvas >
+
+        <Canvas Background="Green" x:Name="Score"  Margin="150,184,182,120" Visibility="Hidden">
+            <TextBlock Text="Game Over!" Height="70" Canvas.Left="45" Canvas.Top="10" Width="313" FontSize="50"></TextBlock>
+            <Label x:Name="score" Height="70" Canvas.Left="45" Canvas.Top="100" Width="313" FontSize="40"/>
+            <Button x:Name="returntomenufromscore" Click="Returntomenufromscore_Click" Height="60" Width="313" Canvas.Left="30" Canvas.Top="200" Content="Return to main menu" FontSize="30" />
+            <Button x:Name="ExitGame" Click="ExitGame_Click" Height="60" Width="313" Canvas.Left="30" Canvas.Top="300" Content="Quit Game" FontSize="35"/>
         </Canvas>
+
 
     </Grid>
 </Window>
