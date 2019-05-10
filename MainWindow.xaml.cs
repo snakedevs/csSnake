@@ -36,6 +36,7 @@ namespace snakeGame
         public Snake Player { get; private set; }
         private DispatcherTimer gameTimer = new DispatcherTimer();
         private Apple apple;
+        private Point tempLastPoint;
 
         // David
         private Button btn_StartGame;
@@ -45,7 +46,7 @@ namespace snakeGame
         private Button btn_GameMenu;
         private TextBlock tb_GameOver;
         private TextBlock tb_Score;
-        private int score;
+
 
         // Everyone
         public MainWindow()
@@ -105,19 +106,27 @@ namespace snakeGame
                     GameStart();
                 }
 
-
-                Player.Movement();
                 this.Title = "Snake 1.0 - Score: " + Player.score;
 
                 if (CheckOutOfBounds() == true)
                 {
-                    GameOver();
+                    gameState = GameState.GameOver;
                 }
 
                 if (Player.EatsApple(Player.headPos, apple.Position) == true)
                 {
                     apple.SelfDestruct(GameCanvas);
                     apple = new Apple(GameCanvas, Player);
+                }
+
+                Player.Movement();
+
+                foreach (Point p in Player.trailPoints)
+                {
+                    if (CheckCollision(p , Player.headPos) == true)
+                    {
+                        gameState = GameState.GameOver;
+                    }
                 }
             }
 
@@ -126,7 +135,7 @@ namespace snakeGame
             {
                 if (GameCanvas.Children.Count >= 1)
                 {
-                    //Run Game Over method
+                    GameOver();
                     //Display leaderboards 
                 }
             }
@@ -149,15 +158,16 @@ namespace snakeGame
 
         //ToDo (Josh): Leaderboard/Scores Methods
 
-        //ToDo (Cam): Quit Game Method
-
-        //ToDo (Cam): Game Over Method
+            //David 
         private void GameOver()
         {
-            QuitGame();
+            GameCanvas.Children.Clear();
+            MessageBox.Show("Score: " + Player.score.ToString());
+            GameCanvas.Visibility = Visibility.Hidden;
+            MainCanvas.Visibility = Visibility.Visible;
+            gameState = GameState.MainMenu;
+            CreateMainMenu();            
         }
-
-        //ToDo (Dave): Start Game Method
 
         //DAvid
         private void returntomenufromcontrols_Click(object sender, RoutedEventArgs e)
@@ -174,7 +184,6 @@ namespace snakeGame
             tB_MainMenu = new TextBlock();
             btn_Controls = new Button();
             btn_QuitGame = new Button();
-
 
             tB_MainMenu.FontSize = 40;
             tB_MainMenu.Text = "  Welcome to Snake! ";
@@ -224,11 +233,11 @@ namespace snakeGame
                     w.Width = 42;
                     if ((j + i) % 2 == 0)
                     {
-                        w.Fill = Brushes.DarkSeaGreen;
+                        w.Fill = Brushes.GhostWhite;
                     }
                     else
                     {
-                        w.Fill = Brushes.ForestGreen;
+                        w.Fill = Brushes.LightGray;
                     }
                     GameCanvas.Children.Add(w);
                     Canvas.SetTop(w, i * 44 + 2);
@@ -265,7 +274,6 @@ namespace snakeGame
                 btn_GameMenu.Height = 100;
                 Canvas.SetTop(btn_GameMenu, 100);
                 Canvas.SetTop(btn_GameMenu, 200);
-
                 tb_GameOver = new TextBlock();
                 GameCanvas.Children.Add(tb_GameOver);
                 tb_GameOver.Text = "Game Over!";
@@ -274,7 +282,6 @@ namespace snakeGame
                 tb_GameOver.Height = 100;
                 Canvas.SetTop(tb_GameOver, 220);
                 Canvas.SetLeft(tb_GameOver, 200);
-
                 tb_Score = new TextBlock();
                 GameCanvas.Children.Add(tb_Score);
                 tb_Score.Text = "your score was " + score;
@@ -283,7 +290,6 @@ namespace snakeGame
                 tb_Score.Width = 356;
                 Canvas.SetTop(tb_Score, 340);
                 Canvas.SetLeft(tb_Score, 100);
-
                 GameCanvas.Children.Add(btn_QuitGame);
                 btn_QuitGame.Height = 100;
                 btn_QuitGame.Width = 356;
