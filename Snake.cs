@@ -34,7 +34,7 @@ namespace snakeGame
             velocityY = 0;
 
             Player = new Rectangle();
-            Player.Fill = Brushes.Blue;
+            Player.Fill = Brushes.LightGreen;
             Player.Width = 42;
             Player.Height = 42;
             GameCanvas.Children.Add(Player);
@@ -42,27 +42,25 @@ namespace snakeGame
             Canvas.SetTop(Player, headPos.Y + 2);
         }
 
-        public void Movement()
+        //David and Josh
+        public void Movement(Key last)
         {
-            if (Keyboard.IsKeyDown(Key.Left) && velocityX != 44)
+            if (last == Key.Left && velocityX != 44)
             {
                 velocityY = 0;
                 velocityX = -44;
             }
-
-            else if (Keyboard.IsKeyDown(Key.Right) && velocityX != -44)
+            else if (last == Key.Right && velocityX != -44)
             {
                 velocityY = 0;
                 velocityX = 44;
             }
-
-            else if (Keyboard.IsKeyDown(Key.Up) && velocityY != 44)
+            else if (last == Key.Up && velocityY != 44)
             {
                 velocityX = 0;
                 velocityY = -44;
             }
-
-            else if (Keyboard.IsKeyDown(Key.Down) && velocityY != -44)
+            else if (last == Key.Down && velocityY != -44)
             {
                 velocityX = 0;
                 velocityY = 44;
@@ -95,6 +93,7 @@ namespace snakeGame
             trail = position;
         }
 
+        //Dave
         public bool EatsApple(Point a, Point b)
         {
             if (a.X == b.X && a.Y == b.Y)
@@ -109,13 +108,14 @@ namespace snakeGame
             }
         }
 
+        //Josh
         public void Grow()
         {
             Rectangle trailRect = new Rectangle();
             Point trailPoint = new Point();
             trailPoint = trail;
 
-            trailRect.Fill = Brushes.Blue;
+            trailRect.Fill = Brushes.ForestGreen;
             trailRect.Width = 42;
             trailRect.Height = 42;
             trailRects.Add(trailRect);
@@ -124,7 +124,5 @@ namespace snakeGame
             Canvas.SetLeft(trailRect, position.X + 2);
             Canvas.SetTop(trailRect, position.Y + 2);
         }
-        //ToDo: Snake
-
     }
 }

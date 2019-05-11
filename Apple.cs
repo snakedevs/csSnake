@@ -16,22 +16,23 @@ namespace snakeGame
     public class Apple
     {
         //David
-
         public Point Position { get; private set; }
         private Random r = new Random();
         private Rectangle apple;
         private int height = 42;
         private int width = 42;
 
+        //David
         private static int randomNumberMethod(Random r)
         {
             //word generation for easy + hard
             int randomnumber;
             //generates random number within 1-16
-            randomnumber = r.Next(1, 16);
+            randomnumber = r.Next(1, 14);
             return randomnumber;
         }
 
+        //Cam
         public Apple(Canvas canvas, Snake s)
         {
             Generate(s);
@@ -40,6 +41,7 @@ namespace snakeGame
             Canvas.SetLeft(apple, Position.X + 2);
         }
 
+        //Cam
         private void Generate(Snake s)
         {
             Position = RandomPos(s);
@@ -49,6 +51,7 @@ namespace snakeGame
             apple.Fill = Brushes.Red;
         }
 
+        //Josh
         private Point RandomPos(Snake s)
         {
             bool isOnSnake = false;
@@ -59,7 +62,7 @@ namespace snakeGame
 
             foreach (Point p in s.trailPoints)
             {
-                if (p.X == Position.X && p.Y == Position.Y)
+                if (p.X == tempPoint.X && p.Y == tempPoint.Y)
                 {
                     isOnSnake = true;
                 }
@@ -75,6 +78,7 @@ namespace snakeGame
 
         }
 
+        //Cam
         public void SelfDestruct(Canvas canvas)
         {
             canvas.Children.Remove(apple);
