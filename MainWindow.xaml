@@ -5,25 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:snakeGame"
         mc:Ignorable="d"
-        Title="Snake v1.0" Height="654" Width="632" MaxHeight="654" MinHeight="654" MaxWidth="632" MinWidth="632">
-    <Grid Background="Black">
-        <Canvas x:Name="displayCanvas">
+        Title="Snake v1.0" Height="743" Width="720" MaxHeight="743" MinHeight="743" MaxWidth="720" MinWidth="720">
+    <Grid>
+        <Canvas x:Name="MainCanvas" Margin="150,184,182,120" Background="Green" >
 
         </Canvas>
-
-        <Canvas x:Name="MainCanvas" Margin="0,50,0,50" Background="Black" Width="300">
-
-        </Canvas>
-
-        <Canvas Visibility="Hidden" x:Name="GameCanvas" Background="Black">
-
-        </Canvas>
-
-        <Canvas Background="Green" x:Name="Score"  Margin="150,184,182,120" Visibility="Hidden">
-            <TextBlock Text="Game Over!" Height="70" Canvas.Left="45" Canvas.Top="10" Width="313" FontSize="50"></TextBlock>
-            <Label x:Name="score" Height="70" Canvas.Left="45" Canvas.Top="100" Width="313" FontSize="40"/>
-            <Button x:Name="returntomenufromscore" Click="Returntomenufromscore_Click" Height="60" Width="313" Canvas.Left="30" Canvas.Top="200" Content="Return to main menu" FontSize="30" />
-            <Button x:Name="ExitGame" Click="ExitGame_Click" Height="60" Width="313" Canvas.Left="30" Canvas.Top="300" Content="Quit Game" FontSize="35"/>
+        
+        <Canvas Visibility="Hidden" x:Name="GameCanvas" Background="BlanchedAlmond">
+            
         </Canvas>
         
         <!--Controls menu-->
@@ -54,28 +43,14 @@
             <Button x:Name="returntomenufromcontrols" Click="returntomenufromcontrols_Click" Height="32" 
                     Width="313" RenderTransformOrigin="3.475,16.75" Canvas.Left="45" Canvas.Top="338"
                     Content="Return to main menu" FontSize="20" />
-        </Canvas>
-
+        </Canvas >
         
+        <!--Score Menu-->
+        <Canvas Background="Green" x:Name="Score"  Margin="150,184,182,120" Visibility="Hidden">
+            <TextBlock Text="Game Over!" Height="70" Canvas.Left="45" Canvas.Top="10" Width="313" FontSize="50"></TextBlock>
+            <Label x:Name="score" Height="70" Canvas.Left="45" Canvas.Top="100" Width="313" FontSize="40"/>
+            <Button x:Name="returntomenufromscore" Click="Returntomenufromscore_Click" Height="60" Width="313" Canvas.Left="30" Canvas.Top="200" Content="Return to main menu" FontSize="30" />
+            <Button x:Name="ExitGame" Click="ExitGame_Click" Height="60" Width="313" Canvas.Left="30" Canvas.Top="300" Content="Quit Game" FontSize="35"/>
+        </Canvas>
     </Grid>
-
-    <Window.Resources>
-        <Style TargetType="{x:Type Button}" x:Key="MenuButton">
-            <Setter Property="Background" Value="Orange"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type Button}">
-                        <Border Background="Transparent" BorderBrush="Green" BorderThickness="1">
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        </Border>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-            <Style.Triggers>
-                <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Opacity" Value="0.5"/>
-                </Trigger>
-            </Style.Triggers>
-        </Style>
-    </Window.Resources>
 </Window>
