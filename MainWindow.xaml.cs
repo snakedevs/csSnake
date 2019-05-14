@@ -25,31 +25,38 @@ namespace snakeGame
     /// </summary>
     public partial class MainWindow : Window
     {
-        // Cam
+        //Cam
         private int[] HighScores = new int[11];
         private string[] HighScorePlayer = new string[11];
-        private Point StartingPos;
 
         private enum GameState { MainMenu, GameOn, GameOver }
         private GameState gameState;
 
         public Snake Player { get; private set; }
         private DispatcherTimer gameTimer = new DispatcherTimer();
+        private DispatcherTimer keyboardTimer = new DispatcherTimer();
         private Apple apple;
-        private Point tempLastPoint;
+        private Key lastKey;
 
-        // David
-        private Button btn_StartGame;
+        //Josh
+        private double gameVersion = 1.0;
+
+        //David
         private TextBlock tB_MainMenu;
-        private Button btn_Controls;
-        private Button btn_QuitGame;
-        private Button btn_GameMenu;
-        private Button btn_ExitGame;
         private TextBlock tb_GameOver;
         private TextBlock tb_Score;
+        private Button btn_StartGame;
+        private Button btn_Options;
+        private Button btn_Controls;
+        private Button btn_QuitGame;
+        private Button btn_ExitGame;
+        private Button btn_Main;
+        private Rectangle display_Snake;
+        private Rectangle display_Trail1;
+        private Rectangle display_Trail2;
+        private Rectangle display_Apple;
 
-
-        // Everyone
+        //Cam
         public MainWindow()
         {
             InitializeComponent();
@@ -57,66 +64,72 @@ namespace snakeGame
 
             gameTimer.Tick += gameTimer_Tick;
             gameTimer.Interval = new TimeSpan(0, 0, 0, 0, 1000 / 10);
-            gameTimer.Start();
+
+            keyboardTimer.Tick += keyboardTimer_Tick;
+            keyboardTimer.Interval = new TimeSpan(0, 0, 0, 0, 1000 / 60);
 
             CreateMainMenu();
 
 
         }
 
-        // Josh
+        //Josh
+        private void keyboardTimer_Tick(object sender, EventArgs e)
+        {
+            if (Keyboard.IsKeyDown(Key.Down))
+            {
+                lastKey = Key.Down;
+            }
+            else if (Keyboard.IsKeyDown(Key.Left))
+            {
+                lastKey = Key.Left;
+            }
+            else if (Keyboard.IsKeyDown(Key.Right))
+            {
+                lastKey = Key.Right;
+            }
+            else if (Keyboard.IsKeyDown(Key.Up))
+            {
+                lastKey = Key.Up;
+            }
+        }
+
+        //Everyone
         private void gameTimer_Tick(object sender, EventArgs e)
         {
             //When game is at mainmenu
+            //David
             if (gameState == GameState.MainMenu)
             {
-                if (btn_StartGame.IsPressed)
-                {
-                    MainCanvas.Visibility = Visibility.Hidden;
-                    MainCanvas.Children.Clear();
-
-                    gameState = GameState.GameOn;
-                }
-                //David
-                if (btn_Controls.IsPressed)
-                {
-                    MainCanvas.Visibility = Visibility.Hidden;
-                    Controls.Visibility = Visibility.Visible;
-                }
                 //Cam
                 if (btn_QuitGame.IsPressed)
                 {
                     QuitGame();
                 }
-                
-
-
             }
 
             //When game is being played
+            //Josh
             else if (gameState == GameState.GameOn)
             {
                 if (GameCanvas.Children.Count == 0)
                 {
-                    //Run Game Start method
-                    //Which will include
                     GameStart();
                 }
+                //David
+                if (Player.EatsApple(Player.headPos, apple.Position) == true)
+                {
+                    this.Title = "Snake " + gameVersion + " - Score: " + Player.score;
+                    apple.SelfDestruct(GameCanvas);
+                    apple = new Apple(GameCanvas, Player);
+                }
 
-                this.Title = "Snake 1.0 - Score: " + Player.score;
+                Player.Movement(lastKey);
 
                 if (CheckOutOfBounds() == true)
                 {
                     gameState = GameState.GameOver;
                 }
-
-                if (Player.EatsApple(Player.headPos, apple.Position) == true)
-                {
-                    apple.SelfDestruct(GameCanvas);
-                    apple = new Apple(GameCanvas, Player);
-                }
-
-                Player.Movement();
 
                 foreach (Point p in Player.trailPoints)
                 {
@@ -128,6 +141,7 @@ namespace snakeGame
             }
 
             //When game has ended
+            //Cam
             else if (gameState == GameState.GameOver)
             {
                 if (GameCanvas.Children.Count >= 1)
@@ -138,35 +152,91 @@ namespace snakeGame
             }
         }
 
+        //David
+        /// <summary>
+        /// David 
+        /// Runs when button clicked
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void BtnControls_Click(object sender, RoutedEventArgs e)
+        {
+            MainCanvas.Visibility = Visibility.Hidden;
+            displayCanvas.Visibility = Visibility.Hidden;
+            Controls.Visibility = Visibility.Visible;
+
+            btn_Main = new Button();
+            btn_Main.FontSize = 30;
+            btn_Main.FontSize = 30;
+            btn_Main.Height = 70;
+            btn_Main.Width = 290;
+            btn_Main.Content = "Main Menu";
+            btn_Main.Foreground = Brushes.White;
+            btn_Main.Background = Brushes.Transparent;
+            btn_Main.Click += returntomenufromcontrols_Click;
+
+            Controls.Children.Add(btn_Main);
+
+            Canvas.SetTop(btn_Main, 390);
+            Canvas.SetLeft(btn_Main, 167);
+
+            try
+            {
+                btn_Main.Style = this.FindResource("MenuButton") as Style;
+            }
+            catch (Exception ex) { MessageBox.Show(ex.ToString()); }
+        }
+
+        //Cam
         private void QuitGame()
         {
             this.Close();
         }
 
+        //David
         private void GameStart()
         {
-            CreateGrid();
+            //CreateGrid();
             GameCanvas.Visibility = Visibility.Visible;
             Player = new Snake(GameCanvas);
             apple = new Apple(GameCanvas, Player);
+            lastKey = new Key();
+            gameTimer.Start();
+            keyboardTimer.Start();
         }
 
-        //ToDo (Anyone): Other Methods
-
-        //ToDo (Josh): Leaderboard/Scores Methods
-
-        //Cam
+        //David
         private void GameOver()
         {
-                       
             GameCanvas.Children.Clear();
             GameCanvas.Visibility = Visibility.Hidden;
             Score.Visibility = Visibility.Visible;
+            gameTimer.Stop();
+            keyboardTimer.Stop();
             gameState = GameState.MainMenu;
-            CreateMainMenu();
+            score.Content = "Your Score is: " + Player.score;
 
-            score.Content = "Your Score is " + Player.score;
-                        
+            btn_Main = new Button();
+            btn_Main.FontSize = 30;
+            btn_Main.FontSize = 30;
+            btn_Main.Height = 70;
+            btn_Main.Width = 290;
+            btn_Main.Content = "Main Menu";
+            btn_Main.Foreground = Brushes.White;
+            btn_Main.Background = Brushes.Transparent;
+            btn_Main.Click += Returntomenufromscore_Click;
+
+            Score.Children.Add(btn_Main);
+
+            Canvas.SetTop(btn_Main, 140);
+
+            try
+            {
+                btn_Main.Style = this.FindResource("MenuButton") as Style;
+            }
+            catch (Exception ex) { MessageBox.Show(ex.ToString()); }
+
+            
         }
 
         //David
@@ -175,70 +245,71 @@ namespace snakeGame
             Controls.Visibility = Visibility.Hidden;
             CreateMainMenu();
             MainCanvas.Visibility = Visibility.Visible;
+            displayCanvas.Visibility = Visibility.Visible;
         }
 
         //David
         private void CreateMainMenu()
         {
-            btn_StartGame = new Button();
+            this.Title = "Snake " + gameVersion + ".0";
+            int i = 1;
             tB_MainMenu = new TextBlock();
+            btn_StartGame = new Button();
+            btn_Options = new Button();
             btn_Controls = new Button();
             btn_QuitGame = new Button();
+            display_Snake = new Rectangle();
+            display_Trail1 = new Rectangle();
+            display_Trail2 = new Rectangle();
+            display_Apple = new Rectangle();
 
-            tB_MainMenu.FontSize = 40;
-            tB_MainMenu.Text = "  Welcome to Snake! ";
-
-            btn_StartGame.FontSize = 40;
-            btn_StartGame.Content = "Start Game";
-            btn_StartGame.Height = 100;
-            btn_StartGame.Width = 356;
-
-            btn_Controls.FontSize = 40;
-            btn_Controls.Content = "Controls";
-            btn_Controls.Height = 100;
-            btn_Controls.Width = 356;
-
-            btn_QuitGame.FontSize = 40;
-            btn_QuitGame.Content = "Quit Game";
-            btn_QuitGame.Height = 100;
-            btn_QuitGame.Width = 356;
-
+            tB_MainMenu.FontSize = 50;
+            tB_MainMenu.Text = "Snake#";
+            tB_MainMenu.TextAlignment = TextAlignment.Center;
+            tB_MainMenu.Width = MainCanvas.Width;
+            tB_MainMenu.Foreground = Brushes.White;
             MainCanvas.Children.Add(tB_MainMenu);
-            MainCanvas.Children.Add(btn_StartGame);
-            MainCanvas.Children.Add(btn_Controls);
-            MainCanvas.Children.Add(btn_QuitGame);
 
-            Canvas.SetTop(btn_StartGame, 70);
-            Canvas.SetLeft(btn_StartGame, 10);
-            Canvas.SetRight(btn_StartGame, 10);
+            setupRectangle(display_Snake, i);
+            setupButton(btn_StartGame, i);
+            i++;
+            btn_StartGame.Content = "Start Game";
 
-            Canvas.SetTop(btn_Controls, 180);
-            Canvas.SetLeft(btn_Controls, 10);
-            Canvas.SetRight(btn_Controls, 10);
+            setupRectangle(display_Trail1, i);
+            setupButton(btn_Options, i);
+            i++;
+            btn_Options.Content = "Options";
 
-            Canvas.SetTop(btn_QuitGame, 290);
-            Canvas.SetLeft(btn_QuitGame, 10);
-            Canvas.SetLeft(btn_QuitGame, 10);
+            setupRectangle(display_Trail2, i);
+            setupButton(btn_Controls, i);
+            i++;
+            btn_Controls.Content = "Controls";
+
+            setupRectangle(display_Apple, i);
+            setupButton(btn_QuitGame, i);
+            btn_QuitGame.Content = "Quit Game";
         }
 
         //David
         private void CreateGrid()
         {
-            for (int j = 0; j < 16; j++)
+            for (int j = 0; j < 14; j++)
             {
-                for (int i = 0; i < 16; i++)
+                for (int i = 0; i < 14; i++)
                 {
                     Rectangle w = new Rectangle();
                     w.Height = 42;
                     w.Width = 42;
+
                     if ((j + i) % 2 == 0)
                     {
-                        w.Fill = Brushes.GhostWhite;
+                        w.Fill = Brushes.Black;
                     }
                     else
                     {
-                        w.Fill = Brushes.LightGray;
+                        w.Fill = Brushes.Black;
                     }
+
                     GameCanvas.Children.Add(w);
                     Canvas.SetTop(w, i * 44 + 2);
                     Canvas.SetLeft(w, j * 44 + 2);
@@ -246,6 +317,7 @@ namespace snakeGame
             }
         }
 
+        //David
         private bool CheckCollision(Point a, Point b)
         {
             if (a.X == b.X && a.Y == b.Y)
@@ -255,15 +327,89 @@ namespace snakeGame
             else return false;
         }
 
+        //Josh
         private bool CheckOutOfBounds()
         {
-            if (Player.headPos.X >= this.MaxWidth || Player.headPos.X < 0 ||
-                Player.headPos.Y >= this.MaxHeight || Player.headPos.Y < 0)
+            if (Player.headPos.X >= this.MaxWidth - 44 || Player.headPos.X < 0 ||
+                Player.headPos.Y >= this.MaxHeight - 44 || Player.headPos.Y < 0)
             {
                 return true;
             }
 
             else return false;
+        }
+
+        //Josh
+        private void setupButton(Button b, int i)
+        {
+            b.FontSize = 30;
+            b.Height = 70;
+            b.Width = MainCanvas.Width - 20;
+            b.Foreground = Brushes.White;
+            b.Background = Brushes.Transparent;
+
+            if (b == btn_StartGame)
+            {
+                btn_StartGame.Click += Btn_StartGame_Click;
+            }
+            else if (b == btn_Controls)
+            {
+                btn_Controls.Click += BtnControls_Click;
+            }
+
+            try
+            {
+                b.Style = this.FindResource("MenuButton") as Style;
+            }
+            catch (Exception ex) { MessageBox.Show(ex.ToString()); }
+
+            MainCanvas.Children.Add(b);
+
+            Canvas.SetTop(b, (90 * i));
+            Canvas.SetLeft(b, 10);
+            Canvas.SetRight(b, 10);
+        }
+
+        private void Btn_StartGame_Click(object sender, RoutedEventArgs e)
+        {
+            GameCanvas.Children.Clear();
+            MainCanvas.Children.Clear();
+            displayCanvas.Children.Clear();
+
+            gameState = GameState.GameOn;
+            gameTimer.Start();
+            keyboardTimer.Start();
+        }
+
+        //Josh
+        private void setupRectangle(Rectangle r, int i)
+        {
+            r.Width = 44;
+            r.Height = 44;
+
+
+            if (r == display_Snake)
+            {
+                Canvas.SetTop(r, 264);
+                Canvas.SetLeft(r, 88);
+                r.Fill = Brushes.LightGreen;
+            }
+            else if (r == display_Trail1 || r == display_Trail2)
+            {
+                Canvas.SetTop(r, 264 - (44 * (i - 1)));
+                Canvas.SetLeft(r, 88);
+                r.Fill = Brushes.ForestGreen;
+            }
+            else
+            {
+                Canvas.SetTop(r, 528);
+                Canvas.SetLeft(r, 484);
+                r.Fill = Brushes.Red;
+            }
+
+
+            displayCanvas.Children.Add(r);
+
         }
 
         //Cam

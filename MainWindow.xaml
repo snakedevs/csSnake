@@ -5,52 +5,87 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:snakeGame"
         mc:Ignorable="d"
-        Title="Snake v1.0" Height="743" Width="720" MaxHeight="743" MinHeight="743" MaxWidth="720" MinWidth="720">
-    <Grid>
-        <Canvas x:Name="MainCanvas" Margin="150,184,182,120" Background="Green" >
+        Title="Snake v1.0" Height="654" Width="632" MaxHeight="654" MinHeight="654" MaxWidth="632" MinWidth="632">
+    <Grid Background="Black">
+        <Canvas x:Name="displayCanvas">
 
         </Canvas>
-        
-        <Canvas Visibility="Hidden" x:Name="GameCanvas" Background="BlanchedAlmond">
-            
+
+        <Canvas x:Name="MainCanvas" Margin="0,50,0,50" Background="Black" Width="300">
+
         </Canvas>
-        
+
+        <Canvas Visibility="Hidden" x:Name="GameCanvas" Background="Black">
+
+        </Canvas>
+
+        <!--Score menu-->
+        <Canvas Background="Black" x:Name="Score"  Margin="163,100,0,0" Visibility="Hidden" >
+            <StackPanel>
+                <TextBlock Text="Game Over!" Margin="10,0,0,0" Height="70" Width="313" FontSize="50" Background="Transparent" Foreground="White"></TextBlock>
+                <Label x:Name="score" Height="70" Width="313" FontSize="40" Background="Transparent" Foreground="White"/>
+                
+            </StackPanel>
+        </Canvas>
+
         <!--Controls menu-->
-        <Canvas Background="Black" x:Name="Controls"  Margin="150,184,182,150" Visibility="Hidden">
-            <TextBlock Height="70" Canvas.Left="45"  Canvas.Top="10" 
-                       Width="79" Background="White" Text="  ↓" FontSize="50"/>
-            <TextBlock HorizontalAlignment="Left" Height="70" 
-                       Text="Down arrow moves snake down" TextWrapping="Wrap" VerticalAlignment="Top" Width="222"
-                       Canvas.Left="136" Canvas.Top="10" Background="White" FontSize="25"/>
+        <Canvas x:Name="Controls"   Visibility="Hidden"  
+                Height="654" Width="632" MaxHeight="654" MinHeight="654" MaxWidth="632" MinWidth="632">
+            <StackPanel Margin="163,100,0,0">
+                <TextBlock Height="70"
+                       Width="79" Background="Transparent" Foreground="White" Text="  ↓" FontSize="50"/>
 
-            <TextBlock Height="70" Canvas.Left="45"  Canvas.Top="90" 
-                       Width="79" Background="White" Text="  ↑" FontSize="50"/>
-            <TextBlock HorizontalAlignment="Left" Height="70" 
-                       Text="Up arrow moves snake up" TextWrapping="Wrap" VerticalAlignment="Top" Width="222"
-                       Canvas.Left="136" Canvas.Top="90" Background="White" FontSize="25"/>
+                <TextBlock Height="70"
+                       Width="79" Background="Transparent" Foreground="White" Text="  ↑" FontSize="50"/>
 
-            <TextBlock Height="70" Canvas.Left="45"  Canvas.Top="170" 
-                       Width="79" Background="White" Text=" → " FontSize="50"/>
-            <TextBlock HorizontalAlignment="Left" Height="70" 
-                       Text="Right arrow moves snake right" TextWrapping="Wrap" VerticalAlignment="Top" Width="222"
-                       Canvas.Left="136" Canvas.Top="170" Background="White" FontSize="25"/>
+                <TextBlock Height="70"
+                       Width="79" Background="Transparent" Foreground="White" Text=" → " FontSize="50"/>
 
-            <TextBlock Height="70" Canvas.Left="45"  Canvas.Top="250" 
-                       Width="79" Background="White" Text=" ← " FontSize="50"/>
-            <TextBlock HorizontalAlignment="Left" Height="70" 
-                       Text="Left arrow moves snake Left" TextWrapping="Wrap" VerticalAlignment="Top" Width="222"
-                       Canvas.Left="136" Canvas.Top="250" Background="White" FontSize="25"/>
-            <Button x:Name="returntomenufromcontrols" Click="returntomenufromcontrols_Click" Height="32" 
-                    Width="313" RenderTransformOrigin="3.475,16.75" Canvas.Left="45" Canvas.Top="338"
-                    Content="Return to main menu" FontSize="20" />
-        </Canvas >
-        
-        <!--Score Menu-->
-        <Canvas Background="Green" x:Name="Score"  Margin="150,184,182,120" Visibility="Hidden">
-            <TextBlock Text="Game Over!" Height="70" Canvas.Left="45" Canvas.Top="10" Width="313" FontSize="50"></TextBlock>
-            <Label x:Name="score" Height="70" Canvas.Left="45" Canvas.Top="100" Width="313" FontSize="40"/>
-            <Button x:Name="returntomenufromscore" Click="Returntomenufromscore_Click" Height="60" Width="313" Canvas.Left="30" Canvas.Top="200" Content="Return to main menu" FontSize="30" />
-            <Button x:Name="ExitGame" Click="ExitGame_Click" Height="60" Width="313" Canvas.Left="30" Canvas.Top="300" Content="Quit Game" FontSize="35"/>
+                <TextBlock Height="70"
+                       Width="79" Background="Transparent" Foreground="White" Text=" ← " FontSize="50"/>
+
+            </StackPanel>
+            <StackPanel Margin="232,120,0,0">
+
+                <TextBlock Height="70"
+                       Text="Move Snake down" TextWrapping="Wrap" Width="222"
+                      Background="Transparent" Foreground="White" FontSize="25"/>
+
+                <TextBlock Height="70" 
+                       Text="Move Snake up" TextWrapping="Wrap" Width="222"
+                        Background="Transparent" Foreground="White" FontSize="25"/>
+
+                <TextBlock Height="70"
+                       Text="Move Snake right" TextWrapping="Wrap"  Width="222"
+                       Background="Transparent" Foreground="White" FontSize="25"/>
+
+                <TextBlock Height="70"
+                       Text="Move Snake Left" TextWrapping="Wrap" Width="222"
+                       Background="Transparent" Foreground="White" FontSize="25"/>
+            
+            </StackPanel>
         </Canvas>
+
+
     </Grid>
+
+    <Window.Resources>
+        <Style TargetType="{x:Type Button}" x:Key="MenuButton">
+            <Setter Property="Background" Value="Orange"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border Background="Transparent" BorderBrush="Green" BorderThickness="1">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Opacity" Value="0.5"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
 </Window>
