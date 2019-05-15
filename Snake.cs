@@ -13,19 +13,25 @@ namespace snakeGame
 {
     public class Snake
     {
-        //Dave        
+        //Dave     
+        //List of variables
         private List<Rectangle> trailRects = new List<Rectangle>();
-        public List<Point> trailPoints { get; private set; }
-        public Point trail { get; private set; }
-        public int score { get; private set; }
-        private int velocityX;
-        private int velocityY;
-        private Rectangle Player;
-        public Point headPos { get => position; }
         private Point position;
         private Canvas GameCanvas;
+        private int velocityX;
+        private int velocityY;
 
-        //Cam
+        public List<Point> trailPoints { get; private set; }
+        public Point trail { get; private set; }
+        public Point headPos { get => position; }
+        public int score { get; private set; }       
+        private Rectangle Player;
+
+        /// <summary>
+        /// Cam
+        /// Generates snake head moving on the screen
+        /// </summary>
+        /// <param name="canvas"></param>
         public Snake(Canvas canvas)
         {
             trailPoints = new List<Point>();
@@ -42,7 +48,11 @@ namespace snakeGame
             Canvas.SetTop(Player, headPos.Y + 2);
         }
 
-        //David and Josh
+        /// <summary>
+        /// David and Josh
+        /// Movement with the last key
+        /// </summary>
+        /// <param name="last"></param>
         public void Movement(Key last)
         {
             if (last == Key.Left && velocityX != 44)
@@ -66,13 +76,15 @@ namespace snakeGame
                 velocityY = 44;
             }
 
+            //Adds in relation to the velocity
             position.X += velocityX;
             position.Y += velocityY;
 
-            //Update Pos
+            //Update Position
             Canvas.SetLeft(Player, position.X + 2);
             Canvas.SetTop(Player, position.Y + 2);
 
+            //Generates the trail 
             int i = trailRects.Count() - 1;
             foreach (Rectangle rect in trailRects)
             {
@@ -93,7 +105,14 @@ namespace snakeGame
             trail = position;
         }
 
-        //Dave
+
+        /// <summary>
+        /// David
+        /// If the snake head eats the apple grow the snake
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
         public bool EatsApple(Point a, Point b)
         {
             if (a.X == b.X && a.Y == b.Y)
@@ -108,7 +127,10 @@ namespace snakeGame
             }
         }
 
-        //Josh
+        /// <summary>
+        /// Josh
+        /// What to add in terms of the snake chacteristics to the trail
+        /// </summary>
         public void Grow()
         {
             Rectangle trailRect = new Rectangle();

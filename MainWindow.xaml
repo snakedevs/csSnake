@@ -7,24 +7,20 @@
         mc:Ignorable="d"
         Title="Snake v1.0" Height="654" Width="632" MaxHeight="654" MinHeight="654" MaxWidth="632" MinWidth="632">
     <Grid Background="Black">
-        <Canvas x:Name="displayCanvas">
+        <!--Snake and apple on home screen-->
+        <Canvas x:Name="displayCanvas"></Canvas>
+        
+        <!--Menu canvas-->
+        <Canvas x:Name="MainCanvas" Margin="0,50,0,50" Background="Black" Width="300"></Canvas>
 
-        </Canvas>
-
-        <Canvas x:Name="MainCanvas" Margin="0,50,0,50" Background="Black" Width="300">
-
-        </Canvas>
-
-        <Canvas Visibility="Hidden" x:Name="GameCanvas" Background="Black">
-
-        </Canvas>
+        <!--Game canvas-->
+        <Canvas Visibility="Hidden" x:Name="GameCanvas" Background="Black"></Canvas>
 
         <!--Score menu-->
         <Canvas Background="Black" x:Name="Score"  Margin="163,100,0,0" Visibility="Hidden" >
             <StackPanel>
                 <TextBlock Text="Game Over!" Margin="10,0,0,0" Height="70" Width="313" FontSize="50" Background="Transparent" Foreground="White"></TextBlock>
-                <Label x:Name="score" Height="70" Width="313" FontSize="40" Background="Transparent" Foreground="White"/>
-                
+                <Label x:Name="score" Height="70" Width="313" FontSize="40" Background="Transparent" Foreground="White"/>                
             </StackPanel>
         </Canvas>
 
@@ -43,10 +39,9 @@
 
                 <TextBlock Height="70"
                        Width="79" Background="Transparent" Foreground="White" Text=" ← " FontSize="50"/>
-
             </StackPanel>
+            
             <StackPanel Margin="232,120,0,0">
-
                 <TextBlock Height="70"
                        Text="Move Snake down" TextWrapping="Wrap" Width="222"
                       Background="Transparent" Foreground="White" FontSize="25"/>
@@ -61,12 +56,9 @@
 
                 <TextBlock Height="70"
                        Text="Move Snake Left" TextWrapping="Wrap" Width="222"
-                       Background="Transparent" Foreground="White" FontSize="25"/>
-            
+                       Background="Transparent" Foreground="White" FontSize="25"/>            
             </StackPanel>
         </Canvas>
-
-
     </Grid>
 
     <Window.Resources>
