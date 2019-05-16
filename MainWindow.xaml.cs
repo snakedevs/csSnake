@@ -87,6 +87,19 @@ namespace snakeGame
             }
         }
         private Rectangle[] standingsRect = new Rectangle[5];
+        private String spreadsheetId = "1JDoFdfZ9if8r3kmKscUA-gEHQ91aU7ZDSlyY_O_qv8g";
+        private String range = "A:B5";
+        private string playerName;
+        private string playerScore;
+
+        // Create Google Sheets API service.
+        private SheetsService service = new SheetsService(new BaseClientService.Initializer()
+        {
+            ApplicationName = ApplicationName,
+        });
+        
+
+            
 
 
 
@@ -663,6 +676,17 @@ namespace snakeGame
             Score.Children.Clear();
             Score.Visibility = Visibility.Hidden;
 
+            playerName = tB_PlayerName.Text;
+            playerScore = Player.score.ToString();
+            for (int i = 0; i < HighScorePlayer.Length; i++)
+            {
+                if (Player.score > HighScores[i])
+                {
+                    WriteDataToGoogleSheets(i + 1);
+                    break;
+                }
+            }
+
             CreateLeaderboards();
         }
 
@@ -717,17 +741,7 @@ namespace snakeGame
                         new FileDataStore(credPath, true)).Result;
                     Console.WriteLine("Credential file saved to: " + credPath);
                 }
-
-                // Create Google Sheets API service.
-                var service = new SheetsService(new BaseClientService.Initializer()
-                {
-                    HttpClientInitializer = credential,
-                    ApplicationName = ApplicationName,
-                });
-
-                // Define request parameters.
-                String spreadsheetId = "1JDoFdfZ9if8r3kmKscUA-gEHQ91aU7ZDSlyY_O_qv8g";
-                String range = "A:B";
+                range = "A:B5";
                 SpreadsheetsResource.ValuesResource.GetRequest request =
                         service.Spreadsheets.Values.Get(spreadsheetId, range);
                 // Prints the names and majors of students in a sample spreadsheet:
@@ -757,6 +771,19 @@ namespace snakeGame
             {
                 MessageBox.Show(ex.Message);
             }
+        }
+
+        private void WriteDataToGoogleSheets(int place)
+        {
+            range = "A" + place.ToString() + ":B" + place.ToString();
+            var valueRange = new ValueRange();
+
+            var oblist = new List<object>() { playerName, playerScore  };
+            valueRange.Values = new List<IList<object>> { oblist };
+
+            var appendRequest = service.Spreadsheets.Values.Append(valueRange, spreadsheetId, range);
+            appendRequest.ValueInputOption = SpreadsheetsResource.ValuesResource.AppendRequest.ValueInputOptionEnum.USERENTERED;
+            var appendReponse = appendRequest.Execute();
         }
     }
 }
