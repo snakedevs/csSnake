@@ -34,8 +34,11 @@ namespace snakeGame
     public partial class MainWindow : Window
     {
         //Cam
-        private int[] HighScores = new int[5];
-        private string[] HighScorePlayer = new string[5];
+        private int[] TopHighScores = new int[5];
+        private string[] TopHighScorePlayer = new string[5];
+        private List<string> AllEntries = new List<string>();
+        private string[] AllPlayers = new string[1];
+        private int[] AllScores = new int[1];
 
         private enum GameState { MainMenu, GameOn, GameOver }
         private GameState gameState;
@@ -69,7 +72,7 @@ namespace snakeGame
 
         //Josh
         private UserCredential credential;
-        static string[] Scopes = { SheetsService.Scope.SpreadsheetsReadonly };
+        static string[] Scopes = { SheetsService.Scope.Spreadsheets };
         static string ApplicationName = "Google Sheets API .NET Snake#";
         public static bool InternetConnection()
         {
@@ -88,15 +91,9 @@ namespace snakeGame
         }
         private Rectangle[] standingsRect = new Rectangle[5];
         private String spreadsheetId = "1JDoFdfZ9if8r3kmKscUA-gEHQ91aU7ZDSlyY_O_qv8g";
-        private String range = "A:B5";
+        private String range;
         private string playerName;
         private string playerScore;
-
-        // Create Google Sheets API service.
-        private SheetsService service = new SheetsService(new BaseClientService.Initializer()
-        {
-            ApplicationName = ApplicationName,
-        });
         
 
             
@@ -503,7 +500,7 @@ namespace snakeGame
                 TextBlock player = new TextBlock();
                 TextBlock score = new TextBlock();
 
-                player.Text = HighScorePlayer[i];
+                player.Text = TopHighScorePlayer[i];
                 player.Width = 200;
                 player.Height = standingsRect[i].Height;
                 player.Foreground = Brushes.White;
@@ -530,13 +527,13 @@ namespace snakeGame
                 place.Foreground = Brushes.White;
                 place.FontSize = 24;
 
-                score.Text = "Score: " + HighScores[i].ToString();
+                score.Text = "Score: " + TopHighScores[i].ToString();
 
-                if (HighScores[i] < 10)
+                if (TopHighScores[i] < 10)
                 {
                     score.Width = 80;
                 }
-                else if (HighScores[i] < 100)
+                else if (TopHighScores[i] < 100)
                 {
                     score.Width = 90;
                 }
@@ -678,10 +675,11 @@ namespace snakeGame
 
             playerName = tB_PlayerName.Text;
             playerScore = Player.score.ToString();
-            for (int i = 0; i < HighScorePlayer.Length; i++)
+            for (int i = 0; i < TopHighScorePlayer.Length; i++)
             {
-                if (Player.score > HighScores[i])
+                if (Player.score > TopHighScores[i])
                 {
+                    ReadDataFromGoogleSheets();
                     WriteDataToGoogleSheets(i + 1);
                     break;
                 }
@@ -737,11 +735,18 @@ namespace snakeGame
                         GoogleClientSecrets.Load(stream).Secrets,
                         Scopes,
                         "user",
-                        CancellationToken.None,
-                        new FileDataStore(credPath, true)).Result;
-                    Console.WriteLine("Credential file saved to: " + credPath);
+                        CancellationToken.None).Result;
+                        
                 }
-                range = "A:B5";
+
+                // Create Google Sheets API service.
+                var service = new SheetsService(new BaseClientService.Initializer()
+                {
+                    HttpClientInitializer = credential,
+                    ApplicationName = ApplicationName,
+                });
+
+                range = "A1:B";
                 SpreadsheetsResource.ValuesResource.GetRequest request =
                         service.Spreadsheets.Values.Get(spreadsheetId, range);
                 // Prints the names and majors of students in a sample spreadsheet:
@@ -750,13 +755,13 @@ namespace snakeGame
                 IList<IList<Object>> values = response.Values;
                 if (values != null && values.Count > 0)
                 {
+                    AllEntries.Clear();
                     int i = 0;
                     Console.WriteLine("Name, Score");
                     foreach (var row in values)
                     {
                         // Print columns A and B, which correspond to indices 0 and 1.
-                        HighScorePlayer[i] = row[0].ToString();
-                        int.TryParse(row[1].ToString(), out HighScores[i]);
+                        AllEntries.Add(row[0].ToString() + "," + row[1].ToString());
 
                         i++;
                     }
@@ -766,6 +771,7 @@ namespace snakeGame
                     Console.WriteLine("No data found.");
                 }
                 Console.Read();
+                SortData();
             }
             catch (Exception ex)
             {
@@ -773,17 +779,55 @@ namespace snakeGame
             }
         }
 
+        private void SortData()
+        {
+            int i = 0;
+            foreach (string a in AllEntries)
+            {
+                int.TryParse(a.Split(',')[1], out AllScores[i]);
+                Array.Resize(ref AllScores, AllScores.Length + 1);
+                i++; 
+            }
+
+            AllScores = AllScores.OrderByDescending(p => p).ToArray();
+            for(int j = 0; j < TopHighScores.Length; j++)
+            {
+                foreach (string a in AllEntries)
+                {
+                    if (a.Contains(AllScores[j].ToString()))
+                    {
+                        string[] tempString;
+                        tempString = a.Split(',');
+                        TopHighScorePlayer[j] = tempString[0];
+                        int.TryParse(tempString[1], out TopHighScores[j]);
+                    }
+                }
+            }
+        }
+
         private void WriteDataToGoogleSheets(int place)
         {
-            range = "A" + place.ToString() + ":B" + place.ToString();
-            var valueRange = new ValueRange();
+            try
+            {
+                range = "A1:C" + place.ToString();
+                var valueRange = new ValueRange();
 
-            var oblist = new List<object>() { playerName, playerScore  };
-            valueRange.Values = new List<IList<object>> { oblist };
+                // Create Google Sheets API service.
+                var service = new SheetsService(new BaseClientService.Initializer()
+                {
+                    HttpClientInitializer = credential,
+                    ApplicationName = ApplicationName,
+                });
 
-            var appendRequest = service.Spreadsheets.Values.Append(valueRange, spreadsheetId, range);
-            appendRequest.ValueInputOption = SpreadsheetsResource.ValuesResource.AppendRequest.ValueInputOptionEnum.USERENTERED;
-            var appendReponse = appendRequest.Execute();
+                var oblist = new List<object>() { playerName, playerScore, DateTime.Today };
+                valueRange.Values = new List<IList<object>> { oblist };
+
+                var request = service.Spreadsheets.Values.Append(valueRange, spreadsheetId, range);
+                request.ValueInputOption = SpreadsheetsResource.ValuesResource.AppendRequest.ValueInputOptionEnum.USERENTERED;
+                var reponse = request.Execute();
+            }
+            catch (Exception ex) { MessageBox.Show(ex.Message); }
+            
         }
     }
 }
