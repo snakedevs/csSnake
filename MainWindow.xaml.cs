@@ -104,8 +104,6 @@ namespace snakeGame
             keyboardTimer.Interval = new TimeSpan(0, 0, 0, 0, 1000 / 60);
 
             CreateMainMenu();
-
-            ReadDataFromGoogleSheets();
         }
 
         //Josh
@@ -140,11 +138,6 @@ namespace snakeGame
             //David
             if (gameState == GameState.MainMenu)
             {
-                //Cam
-                if (btn_QuitGame.IsPressed)
-                {
-                    QuitGame();
-                }
             }
 
             //When game is being played
@@ -225,15 +218,6 @@ namespace snakeGame
             catch (Exception ex) { MessageBox.Show(ex.ToString()); }
         }
 
-        /// <summary>
-        /// Cam
-        /// Closes the program when the method is called
-        /// </summary>
-        private void QuitGame()
-        {
-            this.Close();
-        }
-
         //David
         private void GameStart()
         {
@@ -255,14 +239,14 @@ namespace snakeGame
             gameTimer.Stop();
             keyboardTimer.Stop();
             gameState = GameState.MainMenu;
+            Create_btn_Main(Score, 340);
+            Create_lbl_Score();
+            Create_tB_GameOver();
 
             if (InternetConnection() == true)
             {
                 Create_tB_PlayerName();
-                Create_tB_GameOver();
                 Create_btn_Submit();
-                Create_btn_Main(Score, 340);
-                Create_lbl_Score();
             }
             else
             {
@@ -390,6 +374,10 @@ namespace snakeGame
             {
                 btn_Leaderboards.Click += Btn_Leaderboards_Click;
             }
+            else if (b == btn_QuitGame)
+            {
+                btn_QuitGame.Click += Btn_QuitGame_Click;
+            }
 
             try
             {
@@ -404,11 +392,26 @@ namespace snakeGame
             Canvas.SetRight(b, 10);
         }
 
+        /// <summary>
+        /// Cam
+        /// Closes the game
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Btn_QuitGame_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+
         private void Btn_Leaderboards_Click(object sender, RoutedEventArgs e)
         {
-            MainCanvas.Children.Clear();
-            displayCanvas.Children.Clear();
-            CreateLeaderboards();
+            if (InternetConnection() == true)
+            {
+                MainCanvas.Children.Clear();
+                displayCanvas.Children.Clear();
+                CreateLeaderboards();
+            }
+            else MessageBox.Show("Please connect to internet to access the leaderboards.");
         }
 
         //David
@@ -455,19 +458,20 @@ namespace snakeGame
         }
 
         //Cam
-        private void Returntomenufromscore_Click(object sender, RoutedEventArgs e)
+        private void ReturntoMenu_Click(object sender, RoutedEventArgs e)
         {
-            Score.Children.Clear();
-            Score.Visibility = Visibility.Hidden;
+            if (Score.Children.Count > 0)
+            {
+                Score.Children.Clear();
+                Score.Visibility = Visibility.Hidden;
+            }
+            else if (Leaderboards.Children.Count > 0)
+            {
+                Leaderboards.Children.Clear();
+            }
             MainCanvas.Visibility = Visibility.Visible;
             gameState = GameState.MainMenu;
             CreateMainMenu();
-        }
-
-        //Cam
-        private void ExitGame_Click(object sender, RoutedEventArgs e)
-        {
-            QuitGame();
         }
 
         /// <summary>
@@ -489,14 +493,57 @@ namespace snakeGame
                 player.Text = HighScorePlayer[i];
                 player.Width = 200;
                 player.Height = standingsRect[i].Height;
+                player.Foreground = Brushes.White;
+                player.FontSize = 30;
 
-                place.Text = (i + 1).ToString();
+                if (i + 1 == 1)
+                {
+                    place.Text = (i + 1).ToString() + "st";
+                }
+                else if (i + 1 == 2)
+                {
+                    place.Text = (i + 1).ToString() + "nd";
+                }
+                else if (i + 1 == 3)
+                {
+                    place.Text = (i + 1).ToString() + "rd";
+                }
+                else if (i + 1 > 3)
+                {
+                    place.Text = (i + 1).ToString() + "th";
+                }
                 place.Width = 50;
                 place.Height = standingsRect[i].Height;
+                place.Foreground = Brushes.White;
+                place.FontSize = 24;
 
-                score.Text = HighScores[i].ToString();
-                score.Width = 75;
+                score.Text = "Score: " + HighScores[i].ToString();
+
+                if (HighScores[i] < 10)
+                {
+                    score.Width = 80;
+                }
+                else if (HighScores[i] < 100)
+                {
+                    score.Width = 90;
+                }
+                else { score.Width = 100; }
+
                 score.Height = standingsRect[i].Height;
+                score.Foreground = Brushes.White;
+                score.FontSize = 20;
+
+                Leaderboards.Children.Add(player);
+                Leaderboards.Children.Add(place);
+                Leaderboards.Children.Add(score);
+
+                Canvas.SetTop(player, 115 + (80 * i));
+                Canvas.SetTop(place, 120 + (80 * i));
+                Canvas.SetTop(score, 120 + (80 * i));
+
+                Canvas.SetLeft(player, 175);
+                Canvas.SetLeft(place, 125);
+                Canvas.SetLeft(score, 425);
 
 
                 if (i == 0)
@@ -546,7 +593,16 @@ namespace snakeGame
         private void Create_lbl_Score()
         {
             lbl_Score = new Label();
-            lbl_Score.Width = 210;
+
+            if (Player.score < 10)
+            {
+                lbl_Score.Width = 210;
+            }
+            else if (Player.score < 100)
+            {
+                lbl_Score.Width = 225;
+            }
+            else { lbl_Score.Width = 240; }
             lbl_Score.Height = 70;
             lbl_Score.FontSize = 30;
             lbl_Score.Foreground = Brushes.White;
@@ -567,7 +623,7 @@ namespace snakeGame
             btn_Main.Content = "Main Menu";
             btn_Main.Foreground = Brushes.White;
             btn_Main.Background = Brushes.Transparent;
-            btn_Main.Click += Returntomenufromscore_Click;
+            btn_Main.Click += ReturntoMenu_Click;
             c.Children.Add(btn_Main);
             Canvas.SetTop(btn_Main, top);
             Canvas.SetLeft(btn_Main, (this.Width - btn_Main.Width) / 2);
@@ -589,6 +645,7 @@ namespace snakeGame
             btn_Submit.Background = Brushes.Transparent;
             btn_Submit.Content = "Submit Score";
             btn_Submit.Style = this.FindResource("MenuButton") as Style;
+            btn_Submit.Click += Btn_Submit_Click;
 
             Score.Children.Add(btn_Submit);
             Canvas.SetTop(btn_Submit, 250);
@@ -599,6 +656,14 @@ namespace snakeGame
                 btn_Submit.Style = this.FindResource("MenuButton") as Style;
             }
             catch (Exception ex) { MessageBox.Show(ex.Message); }
+        }
+
+        private void Btn_Submit_Click(object sender, RoutedEventArgs e)
+        {
+            Score.Children.Clear();
+            Score.Visibility = Visibility.Hidden;
+
+            CreateLeaderboards();
         }
 
         private void Create_tB_PlayerName()
