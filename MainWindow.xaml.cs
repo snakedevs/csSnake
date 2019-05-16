@@ -111,7 +111,7 @@ namespace snakeGame
             gameTimer.Interval = new TimeSpan(0, 0, 0, 0, 1000 / 10);
 
             keyboardTimer.Tick += keyboardTimer_Tick;
-            keyboardTimer.Interval = new TimeSpan(0, 0, 0, 0, 1000 / 60);
+            keyboardTimer.Interval = new TimeSpan(0, 0, 0, 0, 1000 / 90);
 
             CreateMainMenu();
         }
