@@ -9,23 +9,20 @@ using System.Windows.Media;
 using System.Windows.Shapes;
 
 namespace snakeGame
-{    
+{
+    /// <summary>
+    /// Apple object
+    /// </summary>
     public class Apple
     {
         //David
-        //Variables
         public Point Position { get; private set; }
         private Random r = new Random();
         private Rectangle apple;
         private int height = 42;
         private int width = 42;
 
-        /// <summary>
-        /// David
-        /// A random number for apple point
-        /// </summary>
-        /// <param name="r"></param>
-        /// <returns></returns>
+        //David
         private static int randomNumberMethod(Random r)
         {
             //word generation for easy + hard
@@ -37,7 +34,22 @@ namespace snakeGame
 
         /// <summary>
         /// Cam
-        /// Apple characterisics
+        /// Apple constructor method
+        /// </summary>
+        /// <param name="canvas"></param>
+        /// <param name="s"></param>
+        public Apple(Canvas canvas, Snake s)
+        {
+            Generate(s);
+            canvas.Children.Add(apple);
+            Canvas.SetTop(apple, Position.Y + 2);
+            Canvas.SetLeft(apple, Position.X + 2);
+        }
+
+        /// <summary>
+        /// Cam
+        /// Generates new apple given the snakes current position
+        /// so that the apple does not generate on the snake.
         /// </summary>
         /// <param name="s"></param>
         private void Generate(Snake s)
@@ -51,22 +63,7 @@ namespace snakeGame
 
         /// <summary>
         /// Cam
-        /// Adds the apple to the game canvas
-        /// </summary>
-        /// <param name="canvas"></param>
-        /// <param name="s"></param>
-        public Apple(Canvas canvas, Snake s)
-        {
-            Generate(s);
-            canvas.Children.Add(apple);
-            Canvas.SetTop(apple, Position.Y + 2);
-            Canvas.SetLeft(apple, Position.X + 2);
-        }
-
-
-        /// <summary>
-        /// Josh
-        /// If the apple is on any part of the snake do not generate
+        /// Generate a random point for the apple to be generated at.
         /// </summary>
         /// <param name="s"></param>
         /// <returns></returns>
@@ -93,16 +90,18 @@ namespace snakeGame
             {
                 return RandomPos(s);
             }
+
         }
 
         /// <summary>
         /// Cam
-        /// If the snake dies remove the apple
+        /// Remove the apple from the canvas in which it exists
         /// </summary>
         /// <param name="canvas"></param>
         public void SelfDestruct(Canvas canvas)
         {
             canvas.Children.Remove(apple);
         }
+
     }
 }

@@ -44,7 +44,7 @@ namespace snakeGame
             Player = new Rectangle();
             Player.Fill = Brushes.LightGreen;
             Player.Width = 42;
-            Player.Height = 42;            
+            Player.Height = 42;
             GameCanvas.Children.Add(Player);
             Canvas.SetLeft(Player, headPos.X + 2);
             Canvas.SetTop(Player, headPos.Y + 2);
