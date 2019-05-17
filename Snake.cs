@@ -24,25 +24,27 @@ namespace snakeGame
         public List<Point> trailPoints { get; private set; }
         public Point trail { get; private set; }
         public Point headPos { get => position; }
-        public int score { get; private set; }       
+        public int score { get; private set; }
         private Rectangle Player;
 
         /// <summary>
         /// Cam
-        /// Generates snake head moving on the screen
+        /// Generates snake head 
         /// </summary>
         /// <param name="canvas"></param>
         public Snake(Canvas canvas)
         {
             trailPoints = new List<Point>();
             GameCanvas = canvas;
-            velocityX = 44;
+            velocityX = 0;
             velocityY = 0;
+            position.X = 88;
+            position.Y = 264;
 
             Player = new Rectangle();
             Player.Fill = Brushes.LightGreen;
             Player.Width = 42;
-            Player.Height = 42;
+            Player.Height = 42;            
             GameCanvas.Children.Add(Player);
             Canvas.SetLeft(Player, headPos.X + 2);
             Canvas.SetTop(Player, headPos.Y + 2);
