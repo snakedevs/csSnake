@@ -54,6 +54,7 @@ namespace snakeGame
 
         //David
         private TextBlock tB_MainMenu;
+        private TextBlock tB_Creators;
         private TextBlock tB_GameOver;
         private Label lbl_Score;
         private Label lbl_Leaderboards;
@@ -94,9 +95,9 @@ namespace snakeGame
         private String range;
         private string playerName;
         private string playerScore;
-        
 
-            
+
+
 
 
 
@@ -278,6 +279,7 @@ namespace snakeGame
             this.Title = "Snake " + gameVersion.ToString();
             int i = 1;
             tB_MainMenu = new TextBlock();
+            tB_Creators = new TextBlock();
             btn_StartGame = new Button();
             btn_Leaderboards = new Button();
             btn_Controls = new Button();
@@ -293,6 +295,15 @@ namespace snakeGame
             tB_MainMenu.Width = MainCanvas.Width;
             tB_MainMenu.Foreground = Brushes.White;
             MainCanvas.Children.Add(tB_MainMenu);
+
+            tB_Creators.FontSize = 17;
+            tB_Creators.Text = "Josh, Cameron and David";
+            tB_Creators.TextAlignment = TextAlignment.Center;
+            tB_Creators.FontWeight = FontWeights.SemiBold;
+            tB_Creators.Width = MainCanvas.Width;
+            tB_Creators.Foreground = Brushes.White;
+            MainCanvas.Children.Add(tB_Creators);
+            Canvas.SetTop(tB_Creators, 60);
 
             setupRectangle(display_Snake, i);
             setupButton(btn_StartGame, i);
@@ -313,33 +324,6 @@ namespace snakeGame
             setupButton(btn_QuitGame, i);
             btn_QuitGame.Content = "Quit Game";
         }
-
-        //David
-        /*private void CreateGrid()
-        {
-            for (int j = 0; j < 14; j++)
-            {
-                for (int i = 0; i < 14; i++)
-                {
-                    Rectangle w = new Rectangle();
-                    w.Height = 42;
-                    w.Width = 42;
-
-                    if ((j + i) % 2 == 0)
-                    {
-                        w.Fill = Brushes.Black;
-                    }
-                    else
-                    {
-                        w.Fill = Brushes.Black;
-                    }
-
-                    GameCanvas.Children.Add(w);
-                    Canvas.SetTop(w, i * 44 + 2);
-                    Canvas.SetLeft(w, j * 44 + 2);
-                }
-            }
-        }*/
 
         //David
         private bool CheckCollision(Point a, Point b)
@@ -462,9 +446,7 @@ namespace snakeGame
                 r.Fill = Brushes.Red;
             }
 
-
             displayCanvas.Children.Add(r);
-
         }
 
         //Cam
@@ -492,7 +474,7 @@ namespace snakeGame
         {
             ReadDataFromGoogleSheets();
 
-            for(int i = 0; i < standingsRect.Length; i++)
+            for (int i = 0; i < standingsRect.Length; i++)
             {
                 standingsRect[i] = new Rectangle();
 
@@ -554,7 +536,6 @@ namespace snakeGame
                 Canvas.SetLeft(player, 175);
                 Canvas.SetLeft(place, 125);
                 Canvas.SetLeft(score, 425);
-
 
                 if (i == 0)
                 {
@@ -736,7 +717,6 @@ namespace snakeGame
                         Scopes,
                         "user",
                         CancellationToken.None).Result;
-                        
                 }
 
                 // Create Google Sheets API service.
@@ -786,14 +766,14 @@ namespace snakeGame
             {
                 int.TryParse(a.Split(',')[1], out AllScores[i]);
                 Array.Resize(ref AllScores, AllScores.Length + 1);
-                i++; 
+                i++;
             }
 
             AllScores = AllScores.OrderByDescending(p => p).ToArray();
-            for(int j = 0; j < TopHighScores.Length; j++)
+            for (int j = 0; j < TopHighScores.Length; j++)
             {
                 foreach (string a in AllEntries)
-                { 
+                {
                     if (a.Contains(AllScores[j].ToString()))
                     {
                         string[] tempString;
@@ -829,7 +809,6 @@ namespace snakeGame
                 var reponse = request.Execute();
             }
             catch (Exception ex) { MessageBox.Show(ex.Message); }
-            
         }
     }
 }
