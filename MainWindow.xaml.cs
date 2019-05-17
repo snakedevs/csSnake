@@ -793,13 +793,15 @@ namespace snakeGame
             for(int j = 0; j < TopHighScores.Length; j++)
             {
                 foreach (string a in AllEntries)
-                {
+                { 
                     if (a.Contains(AllScores[j].ToString()))
                     {
                         string[] tempString;
                         tempString = a.Split(',');
                         TopHighScorePlayer[j] = tempString[0];
                         int.TryParse(tempString[1], out TopHighScores[j]);
+                        AllEntries.RemoveAt(AllEntries.IndexOf(a));
+                        break;
                     }
                 }
             }
